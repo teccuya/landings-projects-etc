@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Змейка</title>
 <style>
   :root{
@@ -16,18 +16,19 @@
     --scanline: rgba(77,255,138,0.035);
   }
 
-  *{ box-sizing: border-box; }
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   html, body{
     margin:0;
-    height:100%;
+    min-height:100%;
     background: var(--bg);
     font-family: 'Courier New', monospace;
     color: var(--neon);
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden;
+    overflow-x:hidden;
+    touch-action: manipulation;
   }
 
   body::before{
@@ -57,6 +58,7 @@
       0 0 0 2px #1f3a2b,
       0 0 40px rgba(77,255,138,0.15),
       inset 0 0 30px rgba(0,0,0,0.6);
+    margin: 16px;
   }
 
   h1{
@@ -100,6 +102,7 @@
     image-rendering: pixelated;
     max-width: 90vw;
     height: auto;
+    touch-action: none;
   }
 
   .footer{
@@ -187,6 +190,45 @@
 
   .canvas-wrap{ position: relative; }
 
+  /* on-screen mobile controls (d-pad) */
+  .touch-controls{
+    display: none;
+    margin-top: 18px;
+    user-select: none;
+  }
+
+  .touch-controls .row{
+    display:flex;
+    justify-content:center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .touch-controls button{
+    width: 56px;
+    height: 56px;
+    background: rgba(77,255,138,0.06);
+    border: 2px solid var(--neon-dim);
+    color: var(--neon);
+    font-size: 22px;
+    border-radius: 12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    touch-action: manipulation;
+  }
+
+  .touch-controls button:active{
+    background: var(--neon);
+    color: #05100a;
+    box-shadow: 0 0 16px var(--neon);
+  }
+
+  /* show d-pad on touch devices / narrow screens */
+  @media (hover: none) and (pointer: coarse){
+    .touch-controls{ display:block; }
+  }
+
   @media (max-width: 520px){
     h1{ font-size: 20px; letter-spacing: 5px; }
     .cabinet{ padding: 16px 14px 14px; }
@@ -209,14 +251,25 @@
 
     <div class="overlay show" id="startOverlay">
       <h2>ЗМЕЙКА</h2>
-      <p>Управление: стрелки или WASD</p>
-      <p class="start-msg">Нажми пробел, чтобы начать</p>
+      <p>Стрелки / WASD / свайп / кнопки ниже</p>
+      <p class="start-msg">Нажми пробел или кнопку, чтобы начать</p>
     </div>
 
     <div class="overlay" id="gameOverOverlay">
       <h2>ИГРА ОКОНЧЕНА</h2>
       <p class="score-final">Счёт: <span id="finalScore">0</span></p>
       <button id="restartBtn">Играть снова</button>
+    </div>
+  </div>
+
+  <div class="touch-controls" id="touchControls">
+    <div class="row">
+      <button data-dir="up">▲</button>
+    </div>
+    <div class="row">
+      <button data-dir="left">◀</button>
+      <button data-dir="down">▼</button>
+      <button data-dir="right">▶</button>
     </div>
   </div>
 
@@ -233,6 +286,7 @@
   const gameOverOverlay = document.getElementById('gameOverOverlay');
   const finalScoreEl = document.getElementById('finalScore');
   const restartBtn = document.getElementById('restartBtn');
+  const touchControls = document.getElementById('touchControls');
 
   const GRID = 20;
   const CELLS = canvas.width / GRID; // 20x20
@@ -383,6 +437,22 @@
     W:{x:0,y:-1}, S:{x:0,y:1}, A:{x:-1,y:0}, D:{x:1,y:0}
   };
 
+  function setDirection(name){
+    const map = {
+      up: {x:0,y:-1}, down: {x:0,y:1}, left: {x:-1,y:0}, right: {x:1,y:0}
+    };
+    const newDir = map[name];
+    if(!newDir) return;
+
+    if(!started || !running){
+      startGame();
+      nextDir = newDir;
+      return;
+    }
+    if(newDir.x === -dir.x && newDir.y === -dir.y) return;
+    nextDir = newDir;
+  }
+
   window.addEventListener('keydown', (e) => {
     if(e.key === ' '){
       e.preventDefault();
@@ -403,17 +473,31 @@
 
   restartBtn.addEventListener('click', startGame);
 
-  // simple swipe support for mobile
+  // on-screen d-pad buttons
+  touchControls.querySelectorAll('button[data-dir]').forEach(btn => {
+    btn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      setDirection(btn.dataset.dir);
+    }, {passive:false});
+    btn.addEventListener('click', (e) => {
+      setDirection(btn.dataset.dir);
+    });
+  });
+
+  // simple swipe support for mobile (swiping directly on the canvas)
   let touchStart = null;
   canvas.addEventListener('touchstart', (e) => {
     touchStart = e.touches[0];
   }, {passive:true});
   canvas.addEventListener('touchend', (e) => {
     if(!touchStart) return;
-    if(!started || !running){ startGame(); return; }
+    if(!started || !running){ startGame(); touchStart = null; return; }
     const t = e.changedTouches[0];
     const dx = t.clientX - touchStart.clientX;
     const dy = t.clientY - touchStart.clientY;
+
+    if(Math.abs(dx) < 20 && Math.abs(dy) < 20){ touchStart = null; return; } // ignore tiny taps
+
     let newDir;
     if(Math.abs(dx) > Math.abs(dy)){
       newDir = dx > 0 ? {x:1,y:0} : {x:-1,y:0};
@@ -423,7 +507,11 @@
     if(!(newDir.x === -dir.x && newDir.y === -dir.y)){
       nextDir = newDir;
     }
+    touchStart = null;
   }, {passive:true});
+
+  // tapping the start/game-over overlay also starts the game (mobile-friendly)
+  startOverlay.addEventListener('click', () => { if(!started) startGame(); });
 
   // initial draw before game starts
   resetState();
