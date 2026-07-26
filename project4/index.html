@@ -1,1 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEXIA Construction Group — Международный генподрядчик</title>
+<meta name="description" content="APEXIA Construction Group — строительство жилых комплексов, офисных небоскрёбов и частных вилл в 24 странах. Собственный парк техники, BIM-проектирование, полный цикл строительства.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2315171A'/%3E%3Cpath d='M20 80V40h12v40M40 80V25h12v55M60 80V50h12v30' stroke='%23FFC72C' stroke-width='5' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   0. RESET & TOKENS
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#15171A;
+  --bg-alt:#1B1E22;
+  --bg-elevated:#22262B;
+  --line:rgba(237,235,228,0.13);
+  --line-strong:rgba(237,235,228,0.24);
+  --text:#EDEBE4;
+  --text-dim:#9CA0A6;
+  --text-faint:#6B6F76;
+  --yellow:#FFC72C;
+  --yellow-dim:#C89A1F;
+  --blue:#6FA0B8;
+  --panel:#F4F2EC;
+  --panel-text:#1C1E21;
+  --danger:#E0654D;
+  --success:#7FB88A;
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --container:1240px;
+  --radius:2px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  font-size:16px;
+  overflow-x:hidden;
+}
+body::before{content:'';position:fixed;inset:-20%;pointer-events:none;z-index:0;background:radial-gradient(circle at 18% 22%,rgba(111,160,184,.08),transparent 24%),radial-gradient(circle at 78% 70%,rgba(255,199,44,.055),transparent 22%);animation:ambientShift 18s ease-in-out infinite alternate;}
+.site-header,main,.site-footer{position:relative;z-index:1;}
+@keyframes ambientShift{from{transform:translate3d(-2%,-1%,0) scale(1);}to{transform:translate3d(2%,1%,0) scale(1.08);}}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+ul{list-style:none;}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.12;letter-spacing:-0.01em;}
+.container{max-width:var(--container);margin:0 auto;padding:0 32px;}
+section{position:relative;}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;}
+.skip-link{position:absolute;top:-100px;left:16px;background:var(--yellow);color:#15171A;padding:10px 18px;font-weight:600;z-index:9999;transition:top .2s var(--ease);}
+.skip-link:focus{top:16px;}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}}
 
+/* blueprint grid backdrop */
+.grid-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:56px 56px;
+  opacity:.45;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 0%, #000 40%, transparent 90%);
+  animation:gridDrift 34s linear infinite;
+  transform:translate3d(calc(var(--parallax-x, 0) * -.35px),calc(var(--parallax-y, 0) * -.2px),0);
+  transition:transform 1.2s var(--ease);
+}
+@keyframes gridDrift{to{background-position:56px 56px;}}
+
+/* corner tick frame — architectural sheet corners */
+.frame{position:relative;}
+.frame::before,.frame::after,.frame .tick-tr,.frame .tick-bl{content:'';position:absolute;width:16px;height:16px;pointer-events:none;}
+.frame::before{top:-1px;left:-1px;border-top:1.5px solid var(--yellow);border-left:1.5px solid var(--yellow);}
+.frame::after{bottom:-1px;right:-1px;border-bottom:1.5px solid var(--yellow);border-right:1.5px solid var(--yellow);}
+
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--yellow);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:18px;
+}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--yellow);}
+.section-pad{padding:120px 0;}
+@media(max-width:768px){.section-pad{padding:76px 0;}}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--font-body);font-weight:600;font-size:14.5px;
+  padding:16px 30px;border-radius:var(--radius);border:1px solid transparent;
+  transition:all .25s var(--ease);white-space:nowrap;
+}
+.btn-primary{background:var(--yellow);color:#15171A;}
+.btn-primary:hover{background:#FFD65C;transform:translateY(-2px);}
+.btn-outline{border-color:var(--line-strong);color:var(--text);}
+.btn-outline:hover{border-color:var(--yellow);color:var(--yellow);}
+.btn-block{width:100%;}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+/* reveal-on-scroll */
+.reveal{opacity:0;transform:translateY(18px) scale(.992);transition:opacity .9s var(--ease),transform .9s var(--ease);will-change:opacity,transform;}
+.reveal.is-visible{opacity:1;transform:translateY(0) scale(1);}
+
+/* ============================================================
+   1. HEADER
+   ============================================================ */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(21,23,26,.78);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  transition:background .3s var(--ease);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:84px;}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing:.01em;}
+.logo-mark{width:30px;height:30px;flex-shrink:0;}
+.logo span{color:var(--yellow);}
+.main-nav{display:flex;align-items:center;gap:38px;}
+.main-nav a{font-size:14.5px;color:var(--text-dim);transition:color .2s;position:relative;padding:4px 0;}
+.main-nav a:hover,.main-nav a.active{color:var(--text);}
+.main-nav a.active::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--yellow);}
+.header-right{display:flex;align-items:center;gap:26px;}
+.header-phone{font-family:var(--font-mono);font-size:14px;color:var(--text-dim);display:flex;align-items:center;gap:8px;}
+.header-phone svg{width:15px;height:15px;stroke:var(--yellow);}
+.nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:8px;z-index:1001;}
+.nav-toggle span{width:24px;height:2px;background:var(--text);transition:all .3s var(--ease);}
+.nav-toggle.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle.is-open span:nth-child(2){opacity:0;}
+.nav-toggle.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+@media(max-width:1024px){
+  .main-nav{position:fixed;top:0;right:0;height:100vh;width:min(340px,80vw);background:var(--bg-alt);
+    flex-direction:column;align-items:flex-start;justify-content:center;gap:28px;padding:40px;
+    transform:translateX(100%);transition:transform .35s var(--ease);border-left:1px solid var(--line);}
+  .main-nav.is-open{transform:translateX(0);}
+  .main-nav a{font-size:19px;}
+  .header-phone{display:none;}
+  .nav-toggle{display:flex;}
+  .header-right .btn{display:none;}
+}
+@media(max-width:480px){.header-inner{height:70px;}.logo{font-size:18px;}}
+
+/* ============================================================
+   2. HERO
+   ============================================================ */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:84px;overflow:hidden;background:var(--bg);}
+.hero-inner{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;width:100%;}
+.hero-copy h1{font-size:clamp(38px,5vw,66px);margin-bottom:24px;}
+.hero-copy h1 em{font-style:normal;color:var(--yellow);}
+.hero-copy p{font-size:17.5px;color:var(--text-dim);max-width:520px;margin-bottom:38px;}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:52px;}
+.hero-meta{display:flex;gap:36px;flex-wrap:wrap;font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint);letter-spacing:.04em;}
+.hero-meta strong{color:var(--text);font-weight:600;}
+.hero-copy .eyebrow,.hero-copy h1,.hero-copy>p,.hero-actions,.hero-meta{opacity:0;transform:translateY(18px);animation:heroCopyIn .7s var(--ease) forwards;}
+.hero-copy h1{animation-delay:.12s;}.hero-copy>p{animation-delay:.24s;}.hero-actions{animation-delay:.36s;}.hero-meta{animation-delay:.48s;}
+@keyframes heroCopyIn{to{opacity:1;transform:translateY(0);}}
+
+.hero-art{position:relative;height:520px;transform:translate3d(calc(var(--parallax-x, 0) * .7px),calc(var(--parallax-y, 0) * .45px),0);transition:transform 1.2s var(--ease);}
+.hero-svg-wrap{position:absolute;inset:0;}
+.hero-svg-wrap svg{width:100%;height:100%;}
+.hero-svg-wrap .bld{opacity:0;transform:translateY(20px);animation:bldIn .9s var(--ease) forwards;}
+.hero-svg-wrap .bld:nth-of-type(1){animation-delay:.15s;}
+.hero-svg-wrap .bld:nth-of-type(2){animation-delay:.35s;}
+.hero-svg-wrap .bld:nth-of-type(3){animation-delay:.5s;}
+.hero-svg-wrap .bld:nth-of-type(4){animation-delay:.65s;}
+.hero.is-settled .bld{animation:skylineFloat 6s ease-in-out infinite alternate;opacity:1;}
+.hero.is-settled .bld:nth-of-type(2){animation-delay:-1.4s;}.hero.is-settled .bld:nth-of-type(3){animation-delay:-2.6s;}.hero.is-settled .bld:nth-of-type(4){animation-delay:-3.8s;}
+.hero.is-settled .hero-crane{animation:craneSway 7s ease-in-out infinite alternate;opacity:1;}
+@keyframes skylineFloat{from{transform:translateY(0);}to{transform:translateY(-11px);}}
+@keyframes craneSway{from{transform:rotate(-.35deg);}to{transform:rotate(.45deg);}}
+.hero-svg-wrap .hero-dim{opacity:0;animation:fadeIn .8s var(--ease) forwards;animation-delay:1s;}
+.hero-svg-wrap .hero-crane{opacity:0;transform-origin:bottom left;animation:craneIn 1s var(--ease) forwards;animation-delay:.8s;}
+@keyframes bldIn{to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{to{opacity:1;}}
+@keyframes craneIn{from{opacity:0;transform:scaleY(.7);}to{opacity:1;transform:scaleY(1);}}
+.scanline{position:absolute;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,var(--yellow),transparent);animation:scan 5s ease-in-out infinite;opacity:.7;}
+@keyframes scan{0%,100%{top:8%;}50%{top:92%;}}
+@media(prefers-reduced-motion:reduce){.hero-svg-wrap .bld,.hero-svg-wrap .hero-dim,.hero-svg-wrap .hero-crane{opacity:1;transform:none;animation:none;}.scanline{display:none;}}
+
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-art{height:340px;order:-1;}
+  .hero-copy p{max-width:none;}
+}
+@media(max-width:480px){.hero{padding-top:70px;}.hero-actions .btn{flex:1;}}
+
+/* ============================================================
+   3. STATS STRIP
+   ============================================================ */
+.stats{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:56px 0;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);}
+.stat-item{text-align:center;position:relative;padding:0 16px;}
+.stat-item:not(:last-child)::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:1px;height:44px;background:var(--line-strong);}
+.stat-num{font-family:var(--font-mono);font-size:clamp(30px,3.4vw,44px);font-weight:600;color:var(--yellow);}
+.stat-label{font-size:13px;color:var(--text-dim);margin-top:8px;letter-spacing:.02em;}
+@media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr);row-gap:32px;}.stat-item:nth-child(2)::after{display:none;}}
+
+/* ============================================================
+   4. ABOUT
+   ============================================================ */
+.about-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:80px;align-items:center;}
+.about-heading{font-size:clamp(28px,3.4vw,40px);margin-bottom:22px;}
+.about-copy p{color:var(--text-dim);margin-bottom:16px;font-size:15.5px;}
+.about-features{margin-top:34px;display:flex;flex-direction:column;gap:18px;}
+.about-feature{display:flex;gap:14px;align-items:flex-start;}
+.about-feature svg{width:20px;height:20px;stroke:var(--yellow);flex-shrink:0;margin-top:2px;}
+.about-feature strong{display:block;font-size:15px;margin-bottom:2px;}
+.about-feature span{font-size:13.5px;color:var(--text-faint);}
+
+.about-art{position:relative;padding:32px;}
+.about-art-inner{position:relative;aspect-ratio:1/1;background:var(--bg-alt);border:1px solid var(--line);}
+.coord-label{position:absolute;top:14px;left:14px;font-family:var(--font-mono);font-size:11px;color:var(--text-faint);letter-spacing:.05em;}
+.coord-label.br{top:auto;left:auto;bottom:14px;right:14px;}
+@media(max-width:1024px){.about-grid{grid-template-columns:1fr;gap:48px;}.about-art{order:-1;max-width:420px;margin:0 auto;}}
+
+/* ============================================================
+   5. SERVICES
+   ============================================================ */
+.section-head{max-width:640px;margin-bottom:64px;}
+.section-head h2{font-size:clamp(28px,3.6vw,42px);}
+.section-head p{color:var(--text-dim);margin-top:16px;font-size:15.5px;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.service-card{background:var(--bg);padding:38px 32px;position:relative;overflow:hidden;transition:background .45s var(--ease),transform .45s var(--ease),box-shadow .45s var(--ease);}
+.service-card::before{content:'';position:absolute;width:180px;height:180px;border-radius:50%;right:-95px;bottom:-95px;background:radial-gradient(circle,rgba(255,199,44,.17),transparent 68%);opacity:0;transform:scale(.5);transition:opacity .55s var(--ease),transform .65s var(--ease);}
+.service-card:hover{background:var(--bg-alt);transform:translateY(-6px);box-shadow:0 16px 28px rgba(0,0,0,.17);z-index:1;}
+.service-card:hover::before{opacity:1;transform:scale(1);}
+.service-card>*{position:relative;z-index:1;}
+.service-sheet{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);letter-spacing:.08em;margin-bottom:26px;}
+.service-icon{width:38px;height:38px;stroke:var(--blue);margin-bottom:20px;}
+.service-card:hover .service-icon{stroke:var(--yellow);}
+.service-card h3{font-size:19px;margin-bottom:10px;}
+.service-card p{font-size:14px;color:var(--text-dim);}
+.service-underline{width:0;height:2px;background:var(--yellow);margin-top:22px;transition:width .35s var(--ease);}
+.service-card:hover .service-underline{width:40px;}
+@media(max-width:1024px){.services-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.services-grid{grid-template-columns:1fr;}}
+
+/* ============================================================
+   6. EQUIPMENT / PARTNERS
+   ============================================================ */
+.equip{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.equip-top{display:grid;grid-template-columns:1fr 1fr;gap:60px;padding-bottom:56px;align-items:end;}
+.equip-top p{color:var(--text-dim);font-size:15.5px;}
+.equip-figs{display:flex;gap:40px;flex-wrap:wrap;}
+.equip-fig .stat-num{font-size:30px;}
+.marquee-wrap{overflow:hidden;border-top:1px solid var(--line);padding:34px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.marquee{display:flex;gap:64px;width:max-content;animation:marquee 28s linear infinite;}
+.marquee:hover{animation-play-state:paused;}
+.marquee span{font-family:var(--font-display);font-weight:700;font-size:24px;color:var(--text-faint);letter-spacing:.03em;white-space:nowrap;transition:color .3s;}
+.marquee span:hover{color:var(--yellow);}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@media(prefers-reduced-motion:reduce){.marquee{animation:none;flex-wrap:wrap;}}
+@media(max-width:900px){.equip-top{grid-template-columns:1fr;gap:28px;}}
+
+/* ============================================================
+   7. PROJECTS
+   ============================================================ */
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.project-card{position:relative;border:1px solid var(--line);background:var(--bg-alt);aspect-ratio:4/5;overflow:hidden;cursor:pointer;transition:border-color .45s var(--ease),box-shadow .45s var(--ease),transform .45s var(--ease);}
+.project-card::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(115deg,transparent 30%,rgba(255,199,44,.13) 50%,transparent 70%);transform:translateX(-130%);transition:transform .85s var(--ease);}
+.project-card:hover::before{transform:translateX(130%);}
+.project-card:hover{border-color:rgba(255,199,44,.7);box-shadow:0 18px 32px rgba(0,0,0,.24);transform:translateY(-5px);}
+.project-visual{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;padding:30px;transition:transform .5s var(--ease);}
+.project-visual svg{width:100%;height:100%;stroke:var(--text-faint);}
+.project-card:nth-child(odd) .project-visual svg{animation:blueprintFloat 8s ease-in-out infinite alternate;}
+.project-card:nth-child(even) .project-visual svg{animation:blueprintFloat 9s ease-in-out -3s infinite alternate-reverse;}
+@keyframes blueprintFloat{from{transform:translateY(0);}to{transform:translateY(-8px);}}
+.project-card:hover .project-visual{transform:scale(1.06);}
+.project-tag{position:absolute;z-index:2;top:18px;left:18px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;color:var(--yellow);border:1px solid var(--yellow);padding:4px 9px;text-transform:uppercase;}
+.project-info{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:22px 24px;background:linear-gradient(0deg,rgba(21,23,26,.97) 30%,transparent 100%);transform:translateY(58%);transition:transform .4s var(--ease);}
+.project-card:hover .project-info,.project-card.is-open .project-info{transform:translateY(0);}
+.project-info h3{font-size:18px;margin-bottom:4px;}
+.project-loc{font-size:12.5px;color:var(--text-faint);font-family:var(--font-mono);margin-bottom:12px;}
+.project-facts{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--text-dim);border-top:1px solid var(--line);padding-top:12px;}
+.project-facts b{color:var(--text);display:block;font-family:var(--font-mono);font-size:14px;}
+@media(max-width:1024px){.projects-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.projects-grid{grid-template-columns:1fr;}.project-card{aspect-ratio:16/12;}.project-info{transform:translateY(0);background:rgba(21,23,26,.9);}}
+
+/* ============================================================
+   8. GLOBAL PRESENCE
+   ============================================================ */
+.presence{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.presence-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:8px;}
+.office-card{background:var(--bg-alt);padding:26px 20px;transition:background .3s var(--ease),transform .3s var(--ease);}
+.office-card:hover{background:var(--bg-elevated);transform:translateY(-4px);}
+.office-card.hq{background:rgba(255,199,44,.06);}
+.office-city{font-family:var(--font-display);font-weight:600;font-size:17px;margin-bottom:6px;}
+.office-tag{font-family:var(--font-mono);font-size:10px;color:var(--yellow);letter-spacing:.08em;margin-bottom:14px;}
+.office-coord{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);}
+@media(max-width:1024px){.presence-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* ============================================================
+   9. PROCESS
+   ============================================================ */
+.process-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;position:relative;}
+.process-grid::before{content:'';position:absolute;top:26px;left:0;right:0;height:1px;background:var(--line-strong);z-index:0;}
+.process-step{position:relative;z-index:1;}
+.process-num{font-family:var(--font-mono);font-size:13px;color:var(--bg);background:var(--yellow);width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;margin-bottom:20px;transition:transform .3s var(--ease),box-shadow .3s var(--ease);}
+.process-step:hover .process-num{transform:scale(1.12);box-shadow:0 0 0 7px rgba(255,199,44,.1);}
+.process-step h4{font-size:15.5px;margin-bottom:8px;}
+.process-step p{font-size:13px;color:var(--text-dim);}
+@media(max-width:1024px){.process-grid{grid-template-columns:repeat(3,1fr);row-gap:44px;}.process-grid::before{display:none;}}
+@media(max-width:600px){.process-grid{grid-template-columns:1fr;}}
+
+/* ============================================================
+   10. CALCULATOR
+   ============================================================ */
+.calc-section{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-alt) 100%);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.calc-panel{background:var(--panel);color:var(--panel-text);display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);}
+.calc-form{padding:52px;border-right:1px solid rgba(0,0,0,.1);}
+.calc-result{padding:52px;background:#15171A;color:var(--text);display:flex;flex-direction:column;justify-content:center;}
+.field{margin-bottom:24px;}
+.field label{display:block;font-size:12.5px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;margin-bottom:10px;color:#54585E;}
+.field select,.field input[type=number]{width:100%;padding:13px 14px;border:1px solid #D8D5CB;background:#fff;font-family:var(--font-body);font-size:14.5px;color:var(--panel-text);border-radius:var(--radius);}
+.range-row{display:flex;align-items:center;gap:14px;}
+.range-row input[type=range]{flex:1;accent-color:var(--yellow-dim);}
+.range-val{font-family:var(--font-mono);font-weight:600;min-width:74px;text-align:right;}
+.seg{display:flex;border:1px solid #D8D5CB;border-radius:var(--radius);overflow:hidden;}
+.seg button{flex:1;padding:11px 8px;background:#fff;border:none;font-size:13px;font-weight:500;color:#54585E;border-right:1px solid #D8D5CB;transition:all .2s;}
+.seg button:last-child{border-right:none;}
+.seg button.active{background:var(--yellow);color:#15171A;font-weight:600;}
+.result-label{font-family:var(--font-mono);font-size:12px;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+.result-value{font-family:var(--font-display);font-size:clamp(30px,3.2vw,42px);font-weight:700;color:var(--yellow);margin-bottom:6px;}
+.result-sub{font-size:13px;color:var(--text-dim);margin-bottom:28px;}
+.result-divider{height:1px;background:var(--line);margin:22px 0;}
+.result-row{display:flex;justify-content:space-between;font-size:14px;color:var(--text-dim);padding:8px 0;}
+.result-row strong{color:var(--text);font-family:var(--font-mono);}
+@media(max-width:900px){.calc-panel{grid-template-columns:1fr;}.calc-form{border-right:none;border-bottom:1px solid rgba(0,0,0,.1);}}
+@media(max-width:600px){.calc-form,.calc-result{padding:32px 24px;}}
+
+/* ============================================================
+   11. TESTIMONIALS
+   ============================================================ */
+.testi-wrap{max-width:820px;margin:0 auto;position:relative;}
+.testi-slide{display:none;text-align:center;}
+.testi-slide.active{display:block;animation:fadeIn .6s var(--ease);}
+.testi-quote{font-size:22px;font-family:var(--font-display);font-weight:500;line-height:1.5;margin-bottom:28px;}
+.testi-quote::before{content:'"';color:var(--yellow);}
+
+.testi-quote::after{content:'"';color:var(--yellow);}
+.testi-name{font-weight:600;font-size:14.5px;}
+.testi-role{font-size:13px;color:var(--text-faint);margin-top:2px;}
+.testi-nav{display:flex;justify-content:center;gap:12px;margin-top:40px;}
+.testi-dot{width:8px;height:8px;border-radius:50%;background:var(--line-strong);border:none;transition:all .3s;}
+.testi-dot.active{background:var(--yellow);width:24px;border-radius:4px;}
+
+/* ============================================================
+   12. CONTACT
+   ============================================================ */
+.contact-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+.contact-form-wrap{background:var(--bg);padding:52px;}
+.contact-info-wrap{background:var(--bg-alt);padding:52px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.f-field{margin-bottom:20px;}
+.f-field label{display:block;font-size:12.5px;color:var(--text-dim);margin-bottom:9px;letter-spacing:.02em;}
+.f-field input,.f-field select,.f-field textarea{
+  width:100%;background:var(--bg-elevated);border:1px solid var(--line-strong);color:var(--text);
+  padding:13px 14px;font-family:var(--font-body);font-size:14.5px;border-radius:var(--radius);transition:border-color .2s;
+}
+.f-field input:focus,.f-field select:focus,.f-field textarea:focus{border-color:var(--yellow);outline:none;}
+.f-field textarea{resize:vertical;min-height:100px;}
+.f-field.has-error input,.f-field.has-error textarea,.f-field.has-error select{border-color:var(--danger);}
+.f-error{font-size:12px;color:var(--danger);margin-top:6px;display:none;}
+.f-field.has-error .f-error{display:block;}
+.f-consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--text-faint);margin-bottom:26px;}
+.f-consent input{margin-top:3px;accent-color:var(--yellow);}
+.form-status{display:none;text-align:center;padding:40px 10px;}
+.form-status.show{display:block;}
+.form-status svg{width:52px;height:52px;stroke:var(--success);margin:0 auto 18px;}
+.form-status h3{font-size:20px;margin-bottom:8px;}
+.form-status p{color:var(--text-dim);font-size:14px;margin-bottom:22px;}
+#leadForm.is-hidden{display:none;}
+
+.info-block{margin-bottom:34px;}
+.info-block h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--yellow);margin-bottom:14px;}
+.info-line{display:flex;gap:12px;margin-bottom:10px;font-size:14.5px;color:var(--text-dim);}
+.info-line svg{width:17px;height:17px;stroke:var(--yellow);flex-shrink:0;margin-top:2px;}
+.office-mini{display:flex;justify-content:space-between;font-size:13.5px;color:var(--text-dim);padding:8px 0;border-bottom:1px solid var(--line);}
+.office-mini:last-child{border-bottom:none;}
+.office-mini b{color:var(--text);font-weight:500;}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+@media(max-width:600px){.contact-form-wrap,.contact-info-wrap{padding:32px 24px;}}
+
+/* ============================================================
+   13. FOOTER
+   ============================================================ */
+.site-footer{background:#0F1113;padding:72px 0 28px;border-top:1px solid var(--line);}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:52px;}
+.footer-brand p{color:var(--text-faint);font-size:13.5px;margin-top:16px;max-width:280px;}
+.footer-col h5{font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-dim);margin-bottom:18px;font-family:var(--font-mono);}
+.footer-col a{display:block;font-size:14px;color:var(--text-faint);margin-bottom:11px;transition:color .2s;}
+.footer-col a:hover{color:var(--yellow);}
+.social-row{display:flex;gap:10px;margin-top:20px;}
+.social-row a{width:36px;height:36px;border:1px solid var(--line-strong);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);}
+.social-row a:hover{border-color:var(--yellow);color:var(--yellow);}
+.footer-bottom{border-top:1px solid var(--line);padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--text-faint);}
+@media(max-width:900px){.footer-top{grid-template-columns:1fr 1fr;row-gap:36px;}}
+@media(max-width:480px){.footer-top{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Перейти к содержанию</a>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#main" class="logo" aria-label="APEXIA — на главную">
+      <svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <rect x="18" y="42" width="14" height="40" stroke="#FFC72C" stroke-width="5"/>
+        <rect x="38" y="24" width="14" height="58" stroke="#EDEBE4" stroke-width="5"/>
+        <rect x="58" y="52" width="14" height="30" stroke="#FFC72C" stroke-width="5"/>
+      </svg>
+      APEX<span>IA</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Основная навигация">
+      <a href="#about" class="nav-link">Компания</a>
+      <a href="#services" class="nav-link">Услуги</a>
+      <a href="#equipment" class="nav-link">Техника</a>
+      <a href="#projects" class="nav-link">Проекты</a>
+      <a href="#calculator" class="nav-link">Расчёт стоимости</a>
+      <a href="#contact" class="nav-link">Контакты</a>
+    </nav>
+    <div class="header-right">
+      <a href="tel:+97145012230" class="header-phone">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +971 4 501 22 30
+      </a>
+      <a href="#contact" class="btn btn-primary">Обсудить проект</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="mainNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">Генподрядчик · реализовано в 24 странах</p>
+      <h1>От линии чертежа&nbsp;— до&nbsp;линии <em>горизонта</em>.</h1>
+      <p>APEXIA проектирует и строит жилые комплексы, офисные небоскрёбы и частные виллы по всему миру — на технике мировых лидеров индустрии: Caterpillar, Liebherr, Komatsu.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Обсудить проект</a>
+        <a href="#projects" class="btn btn-outline">Смотреть портфолио</a>
+      </div>
+      <div class="hero-meta">
+        <span>Основана в <strong>2009</strong></span>
+        <span>Штаб-квартира: <strong>Дубай, ОАЭ</strong></span>
+        <span><strong>340+</strong> завершённых объектов</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="hero-svg-wrap">
+        <svg viewBox="0 0 620 560" fill="none">
+          <defs>
+            <pattern id="gridPattern" width="12" height="12" patternUnits="userSpaceOnUse">
+              <path d="M12 0H0V12" stroke="#33373D" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <line x1="30" y1="470" x2="590" y2="470" stroke="#33373D" stroke-width="1"/>
+          <g class="bld"><rect x="70" y="330" width="70" height="140" fill="url(#gridPattern)" stroke="#6FA0B8" stroke-width="1.5"/></g>
+          <g class="bld"><rect x="170" y="230" width="82" height="240" fill="url(#gridPattern)" stroke="#EDEBE4" stroke-width="1.5"/></g>
+          <g class="bld"><rect x="282" y="120" width="94" height="350" fill="url(#gridPattern)" stroke="#FFC72C" stroke-width="1.7"/></g>
+          <g class="bld"><rect x="404" y="270" width="76" height="200" fill="url(#gridPattern)" stroke="#6FA0B8" stroke-width="1.5"/></g>
+          <g class="hero-crane">
+            <line x1="500" y1="470" x2="500" y2="90" stroke="#9CA0A6" stroke-width="2"/>
+            <line x1="500" y1="95" x2="590" y2="95" stroke="#9CA0A6" stroke-width="2"/>
+            <line x1="500" y1="95" x2="455" y2="120" stroke="#9CA0A6" stroke-width="2"/>
+            <line x1="500" y1="95" x2="560" y2="150" stroke="#9CA0A6" stroke-width="1.2" stroke-dasharray="3 3"/>
+            <line x1="500" y1="130" x2="530" y2="95" stroke="#9CA0A6" stroke-width="1.2" stroke-dasharray="3 3"/>
+          </g>
+          <g class="hero-dim">
+            <line x1="500" y1="90" x2="500" y2="60" stroke="#FFC72C" stroke-width="1"/>
+            <line x1="282" y1="90" x2="282" y2="60" stroke="#FFC72C" stroke-width="1"/>
+            <line x1="282" y1="75" x2="500" y2="75" stroke="#FFC72C" stroke-width="1"/>
+            <text x="360" y="66" fill="#FFC72C" font-family="JetBrains Mono" font-size="12">412 M</text>
+          </g>
+        </svg>
+        <div class="scanline"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     STATS
+     ============================================================ -->
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat-item"><div class="stat-num" data-count="17">0</div><div class="stat-label">лет на рынке</div></div>
+    <div class="stat-item"><div class="stat-num" data-count="24">0</div><div class="stat-label">страны присутствия</div></div>
+    <div class="stat-item"><div class="stat-num" data-count="340" data-suffix="+">0</div><div class="stat-label">завершённых объектов</div></div>
+    <div class="stat-item"><div class="stat-num" data-count="900" data-suffix="+">0</div><div class="stat-label">единиц техники в парке</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section class="section-pad" id="about">
+  <div class="container about-grid">
+    <div class="about-art reveal frame">
+      <div class="about-art-inner">
+        <span class="coord-label">25.1972° N, 55.2744° E</span>
+        <span class="coord-label br">SHEET 01 / HQ</span>
+        <svg viewBox="0 0 300 300" fill="none" style="width:100%;height:100%;">
+          <rect x="60" y="150" width="34" height="110" stroke="#6FA0B8" stroke-width="1.4"/>
+          <rect x="105" y="90" width="40" height="170" stroke="#EDEBE4" stroke-width="1.4"/>
+          <rect x="155" y="60" width="44" height="200" stroke="#FFC72C" stroke-width="1.6"/>
+          <rect x="210" y="120" width="36" height="140" stroke="#6FA0B8" stroke-width="1.4"/>
+          <line x1="40" y1="260" x2="260" y2="260" stroke="#33373D"/>
+        </svg>
+      </div>
+    </div>
+    <div class="about-copy reveal">
+      <p class="eyebrow">Sheet 01 / О компании</p>
+      <h2 class="about-heading">Международный генподрядчик полного цикла</h2>
+      <p>APEXIA Construction Group основана в 2009 году в Дубае. Мы проектируем и строим объекты трёх типов: жилые комплексы премиум-класса, офисные небоскрёбы класса А и частные виллы под ключ.</p>
+      <p>За 17 лет реализовали более 340 проектов в 24 странах — от ОАЭ и Великобритании до США и Юго-Восточной Азии, — сохраняя единый стандарт качества на каждой площадке.</p>
+      <div class="about-features">
+        <div class="about-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+          <div><strong>Полный цикл</strong><span>Проектирование, строительство, сдача объекта в эксплуатацию</span></div>
+        </div>
+        <div class="about-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M3 7h11l3 5h4v5h-2M14 7v10M3 7v10h3M7 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+          <div><strong>Собственный парк техники</strong><span>900+ единиц: краны, экскаваторы, бульдозеры, погрузчики</span></div>
+        </div>
+        <div class="about-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M4 4h16v16H4zM4 9h16M9 4v16"/></svg>
+          <div><strong>BIM и цифровой контроль</strong><span>Информационное моделирование на всех этапах стройки</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVICES
+     ============================================================ -->
+<section class="section-pad" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Sheet 02 / Услуги</p>
+      <h2>Три направления, один стандарт качества</h2>
+      <p>От высотной доминанты делового района до приватной резиденции — каждый проект проходит один и тот же инженерный контроль.</p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-sheet">01 / RESIDENTIAL</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 12h.01M15 12h.01M9 9h.01M15 9h.01"/></svg>
+        <h3>Жилые комплексы</h3>
+        <p>Многофункциональные кварталы и башни с развитой инфраструктурой — от 5 до 80 этажей.</p>
+        <div class="service-underline"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-sheet">02 / OFFICE TOWERS</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" aria-hidden="true"><path d="M6 22V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v18M18 22V10a1 1 0 0 0-1-1h-3M2 22h20M9 7h1M9 11h1M9 15h1"/></svg>
+        <h3>Офисные небоскрёбы</h3>
+        <p>Коммерческая недвижимость класса А — от фундамента до сертификации LEED/BREEAM.</p>
+        <div class="service-underline"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-sheet">03 / PRIVATE VILLAS</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" aria-hidden="true"><path d="M3 12l9-8 9 8M5 10v10h14V10M9 20v-6h6v6"/></svg>
+        <h3>Частные виллы</h3>
+        <p>Индивидуальные резиденции полного цикла: архитектура, инженерия, ландшафт, смарт-дом.</p>
+        <div class="service-underline"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-sheet">04 / INDUSTRIAL</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" aria-hidden="true"><path d="M2 22h20M4 22V10l6 4v-4l6 4v-4l4 2v10M4 10l4-4 4 4"/></svg>
+        <h3>Промышленные объекты</h3>
+        <p>Логистические комплексы, производственные площадки и дата-центры под ключ.</p>
+        <div class="service-underline"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-sheet">05 / REDEVELOPMENT</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+        <h3>Реконструкция</h3>
+        <p>Модернизация существующих зданий без остановки эксплуатации объекта.</p>
+        <div class="service-underline"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-sheet">06 / BIM ENGINEERING</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM13 13h7v7h-7zM4 13h7v7H4z"/></svg>
+        <h3>Инжиниринг и BIM</h3>
+        <p>Цифровые модели зданий и авторский надзор на всех этапах строительства.</p>
+        <div class="service-underline"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EQUIPMENT / PARTNERS
+     ============================================================ -->
+<section class="equip section-pad" id="equipment">
+  <div class="container">
+    <div class="equip-top">
+      <div class="reveal">
+        <p class="eyebrow">Sheet 03 / Техника и парк</p>
+        <h2 style="font-size:clamp(26px,3.2vw,36px);">Работаем на технике, которой доверяют лидеры отрасли</h2>
+      </div>
+      <div class="reveal">
+        <p>Собственный парк насчитывает более 900 единиц техники. В работе используем экскаваторы, бульдозеры и краны Caterpillar, башенные краны Liebherr, погрузчики Komatsu и Volvo CE, а также высокоточный инструмент Hilti.</p>
+        <div class="equip-figs" style="margin-top:24px;">
+          <div class="equip-fig"><div class="stat-num">900+</div><div class="stat-label">единиц техники</div></div>
+          <div class="equip-fig"><div class="stat-num">6</div><div class="stat-label">брендов-поставщиков</div></div>
+          <div class="equip-fig"><div class="stat-num">24/7</div><div class="stat-label">сервис и логистика</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <span>CATERPILLAR</span><span>LIEBHERR</span><span>KOMATSU</span><span>VOLVO CE</span><span>HILTI</span><span>TRIMBLE</span>
+      <span>CATERPILLAR</span><span>LIEBHERR</span><span>KOMATSU</span><span>VOLVO CE</span><span>HILTI</span><span>TRIMBLE</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROJECTS
+     ============================================================ -->
+<section class="section-pad" id="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Sheet 04 / Портфолио</p>
+      <h2>Избранные проекты</h2>
+      <p>Шесть объектов, отражающих три направления нашей работы на трёх континентах.</p>
+    </div>
+    <div class="projects-grid reveal" id="projectsGrid">
+      <!-- cards injected identically in markup for no-js reliability -->
+      <article class="project-card" tabindex="0">
+        <span class="project-tag">Небоскрёб</span>
+        <div class="project-visual"><svg viewBox="0 0 120 160" fill="none"><rect x="35" y="10" width="50" height="140" stroke-width="1.4"/><line x1="35" y1="30" x2="85" y2="30" stroke-width="1"/><line x1="35" y1="50" x2="85" y2="50" stroke-width="1"/><line x1="35" y1="70" x2="85" y2="70" stroke-width="1"/><line x1="35" y1="90" x2="85" y2="90" stroke-width="1"/><line x1="35" y1="110" x2="85" y2="110" stroke-width="1"/><line x1="35" y1="130" x2="85" y2="130" stroke-width="1"/></svg></div>
+        <div class="project-info">
+          <h3>Zenith Tower</h3>
+          <p class="project-loc">Дубай, ОАЭ · 2024</p>
+          <div class="project-facts"><div><b>78</b>этажей</div><div><b>312 м</b>высота</div><div><b>96 000 м²</b>площадь</div></div>
+        </div>
+      </article>
+      <article class="project-card" tabindex="0">
+        <span class="project-tag">Жилой комплекс</span>
+        <div class="project-visual"><svg viewBox="0 0 120 160" fill="none"><rect x="10" y="60" width="26" height="90" stroke-width="1.4"/><rect x="47" y="30" width="26" height="120" stroke-width="1.4"/><rect x="84" y="70" width="26" height="80" stroke-width="1.4"/></svg></div>
+        <div class="project-info">
+          <h3>Meridian Residences</h3>
+          <p class="project-loc">Сингапур · 2023</p>
+          <div class="project-facts"><div><b>6</b>башен</div><div><b>1 240</b>квартир</div><div><b>18 мес</b>срок</div></div>
+        </div>
+      </article>
+      <article class="project-card" tabindex="0">
+        <span class="project-tag">Вилла</span>
+        <div class="project-visual"><svg viewBox="0 0 120 160" fill="none"><path d="M15 90 L60 55 L105 90" stroke-width="1.4"/><rect x="25" y="90" width="70" height="55" stroke-width="1.4"/><line x1="25" y1="115" x2="95" y2="115" stroke-width="1"/></svg></div>
+        <div class="project-info">
+          <h3>Villa Aurelia</h3>
+          <p class="project-loc">Лазурный берег, Франция · 2025</p>
+          <div class="project-facts"><div><b>1 200 м²</b>площадь</div><div><b>7</b>спален</div><div><b>14 мес</b>срок</div></div>
+        </div>
+      </article>
+      <article class="project-card" tabindex="0">
+        <span class="project-tag">Небоскрёб</span>
+        <div class="project-visual"><svg viewBox="0 0 120 160" fill="none"><rect x="40" y="20" width="40" height="130" stroke-width="1.4"/><line x1="40" y1="45" x2="80" y2="45" stroke-width="1"/><line x1="40" y1="70" x2="80" y2="70" stroke-width="1"/><line x1="40" y1="95" x2="80" y2="95" stroke-width="1"/><line x1="40" y1="120" x2="80" y2="120" stroke-width="1"/></svg></div>
+        <div class="project-info">
+          <h3>Horizon One</h3>
+          <p class="project-loc">Лондон, Великобритания · 2022</p>
+          <div class="project-facts"><div><b>52</b>этажа</div><div><b>210 м</b>высота</div><div><b>LEED Gold</b>сертификат</div></div>
+        </div>
+      </article>
+      <article class="project-card" tabindex="0">
+        <span class="project-tag">Жилой комплекс</span>
+        <div class="project-visual"><svg viewBox="0 0 120 160" fill="none"><rect x="15" y="45" width="28" height="105" stroke-width="1.4"/><rect x="50" y="65" width="28" height="85" stroke-width="1.4"/><rect x="85" y="30" width="28" height="120" stroke-width="1.4"/></svg></div>
+        <div class="project-info">
+          <h3>Palm Residences</h3>
+          <p class="project-loc">Майами, США · 2024</p>
+          <div class="project-facts"><div><b>3</b>башни</div><div><b>640</b>квартир</div><div><b>22 мес</b>срок</div></div>
+        </div>
+      </article>
+      <article class="project-card" tabindex="0">
+        <span class="project-tag">Вилла</span>
+        <div class="project-visual"><svg viewBox="0 0 120 160" fill="none"><path d="M10 85 L60 50 L110 85" stroke-width="1.4"/><rect x="20" y="85" width="80" height="60" stroke-width="1.4"/><rect x="45" y="105" width="16" height="40" stroke-width="1"/></svg></div>
+        <div class="project-info">
+          <h3>Villa Serene</h3>
+          <p class="project-loc">Эр-Рияд, Саудовская Аравия · 2025</p>
+          <div class="project-facts"><div><b>980 м²</b>площадь</div><div><b>6</b>спален</div><div><b>12 мес</b>срок</div></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GLOBAL PRESENCE
+     ============================================================ -->
+<section class="presence section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Sheet 05 / География</p>
+      <h2>Пять хабов — один стандарт</h2>
+    </div>
+    <div class="presence-grid reveal">
+      <div class="office-card hq">
+        <div class="office-city">Дубай</div>
+        <div class="office-tag">Штаб-квартира</div>
+        <div class="office-coord">25.1972° N, 55.2744° E</div>
+      </div>
+      <div class="office-card">
+        <div class="office-city">Сингапур</div>
+        <div class="office-tag">Региональный офис</div>
+        <div class="office-coord">1.3521° N, 103.8198° E</div>
+      </div>
+      <div class="office-card">
+        <div class="office-city">Лондон</div>
+        <div class="office-tag">Региональный офис</div>
+        <div class="office-coord">51.5072° N, 0.1276° W</div>
+      </div>
+      <div class="office-card">
+        <div class="office-city">Майами</div>
+        <div class="office-tag">Региональный офис</div>
+        <div class="office-coord">25.7617° N, 80.1918° W</div>
+      </div>
+      <div class="office-card">
+        <div class="office-city">Эр-Рияд</div>
+        <div class="office-tag">Региональный офис</div>
+        <div class="office-coord">24.7136° N, 46.6753° E</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCESS
+     ============================================================ -->
+<section class="section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Sheet 06 / Как мы работаем</p>
+      <h2>Шесть этапов от идеи до сдачи объекта</h2>
+    </div>
+    <div class="process-grid reveal">
+      <div class="process-step"><div class="process-num">01</div><h4>Консультация</h4><p>Анализ участка, бюджета и целей проекта.</p></div>
+      <div class="process-step"><div class="process-num">02</div><h4>Проектирование</h4><p>Архитектурная концепция и BIM-модель здания.</p></div>
+      <div class="process-step"><div class="process-num">03</div><h4>Согласования</h4><p>Разрешения и сертификация проекта.</p></div>
+      <div class="process-step"><div class="process-num">04</div><h4>Строительство</h4><p>Работы на собственной технике под контролем инженеров.</p></div>
+      <div class="process-step"><div class="process-num">05</div><h4>Контроль качества</h4><p>Независимый аудит на каждом этапе стройки.</p></div>
+      <div class="process-step"><div class="process-num">06</div><h4>Сдача объекта</h4><p>Ввод в эксплуатацию и постпроектное сопровождение.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CALCULATOR
+     ============================================================ -->
+<section class="calc-section section-pad" id="calculator">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Sheet 07 / Калькулятор</p>
+      <h2>Быстрый расчёт стоимости проекта</h2>
+      <p>Ориентировочная оценка за 10 секунд. Точный расчёт — после консультации с инженером.</p>
+    </div>
+    <div class="calc-panel reveal">
+      <div class="calc-form">
+        <div class="field">
+          <label for="calcType">Тип объекта</label>
+          <select id="calcType">
+            <option value="residential">Жилой комплекс</option>
+            <option value="office">Офисный небоскрёб</option>
+            <option value="villa">Частная вилла</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="calcArea">Площадь застройки, м²</label>
+          <div class="range-row">
+            <input type="range" id="calcArea" min="200" max="150000" step="100" value="5000">
+            <span class="range-val" id="calcAreaVal">5 000 м²</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Уровень отделки</label>
+          <div class="seg" id="calcFinish">
+            <button type="button" data-finish="0.85">Economy</button>
+            <button type="button" data-finish="1" class="active">Business</button>
+            <button type="button" data-finish="1.4">Premium</button>
+          </div>
+        </div>
+        <p style="font-size:12px;color:#8A8E93;margin-top:10px;">* Расчёт ориентировочный, основан на усреднённых показателях по завершённым проектам APEXIA.</p>
+      </div>
+      <div class="calc-result">
+        <div class="result-label">Ориентировочная стоимость</div>
+        <div class="result-value" id="calcCost">$7.0M – $8.6M</div>
+        <div class="result-sub" id="calcCostSub">на основе тарифа $1 400 / м² для жилых комплексов</div>
+        <div class="result-divider"></div>
+        <div class="result-row"><span>Срок реализации</span><strong id="calcTime">≈ 19 месяцев</strong></div>
+        <div class="result-row"><span>Тип объекта</span><strong id="calcTypeLabel">Жилой комплекс</strong></div>
+        <div class="result-row"><span>Уровень отделки</span><strong id="calcFinishLabel">Business</strong></div>
+        <a href="#contact" class="btn btn-primary btn-block" style="margin-top:28px;">Получить точный расчёт</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+     ============================================================ -->
+<section class="section-pad">
+  <div class="container">
+    <div class="testi-wrap reveal">
+      <div class="testi-slide active">
+        <p class="testi-quote">Проект был сдан на три недели раньше срока, с полным соответствием BIM-модели на этапе сдачи.</p>
+        <div class="testi-name">Директор по девелопменту</div>
+        <div class="testi-role">Meridian Residences, Сингапур</div>
+      </div>
+      <div class="testi-slide">
+        <p class="testi-quote">Команда APEXIA взяла на себя весь цикл — от разрешений до сдачи. Ни одной задержки за 30 месяцев стройки.</p>
+        <div class="testi-name">Частный инвестор</div>
+        <div class="testi-role">Horizon One, Лондон</div>
+      </div>
+      <div class="testi-slide">
+        <p class="testi-quote">Вилла построена с вниманием к деталям, которого мы не ожидали от компании такого масштаба работы.</p>
+        <div class="testi-name">Частный заказчик</div>
+        <div class="testi-role">Villa Aurelia, Лазурный берег</div>
+      </div>
+      <div class="testi-nav" id="testiNav">
+        <button class="testi-dot active" aria-label="Отзыв 1"></button>
+        <button class="testi-dot" aria-label="Отзыв 2"></button>
+        <button class="testi-dot" aria-label="Отзыв 3"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section class="section-pad" id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Sheet 08 / Контакты</p>
+      <h2>Обсудим ваш проект</h2>
+    </div>
+    <div class="contact-grid reveal">
+      <div class="contact-form-wrap">
+        <form id="leadForm" novalidate>
+          <div class="form-row">
+            <div class="f-field" id="fName">
+              <label for="inpName">Имя</label>
+              <input type="text" id="inpName" autocomplete="name" placeholder="Ваше имя">
+              <div class="f-error">Пожалуйста, укажите имя.</div>
+            </div>
+            <div class="f-field" id="fPhone">
+              <label for="inpPhone">Телефон</label>
+              <input type="tel" id="inpPhone" autocomplete="tel" placeholder="+7 900 000 00 00">
+              <div class="f-error">Введите корректный номер телефона.</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="f-field" id="fEmail">
+              <label for="inpEmail">Email</label>
+              <input type="email" id="inpEmail" autocomplete="email" placeholder="you@company.com">
+              <div class="f-error">Введите корректный email.</div>
+            </div>
+            <div class="f-field" id="fType">
+              <label for="inpType">Тип объекта</label>
+              <select id="inpType">
+                <option value="">Выберите тип</option>
+                <option>Жилой комплекс</option>
+                <option>Офисный небоскрёб</option>
+                <option>Частная вилла</option>
+                <option>Промышленный объект</option>
+                <option>Другое</option>
+              </select>
+              <div class="f-error">Выберите тип объекта.</div>
+            </div>
+          </div>
+          <div class="f-field" id="fMessage">
+            <label for="inpMessage">Сообщение</label>
+            <textarea id="inpMessage" placeholder="Кратко расскажите о проекте: локация, площадь, сроки"></textarea>
+            <div class="f-error">Расскажите пару слов о проекте.</div>
+          </div>
+          <label class="f-consent">
+            <input type="checkbox" id="inpConsent">
+            <span>Я согласен(на) на обработку персональных данных в соответствии с политикой конфиденциальности APEXIA.</span>
+          </label>
+          <div class="f-field" id="fConsent" style="margin-top:-16px;margin-bottom:20px;"><div class="f-error">Необходимо согласие на обработку данных.</div></div>
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Отправить заявку</button>
+        </form>
+        <div class="form-status" id="formStatus">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+          <h3>Заявка отправлена</h3>
+          <p>Спасибо! Инженер отдела продаж свяжется с вами в течение 24 часов.</p>
+          <button type="button" class="btn btn-outline" id="resetFormBtn">Отправить ещё одну заявку</button>
+        </div>
+      </div>
+      <div class="contact-info-wrap">
+        <div class="info-block">
+          <h4>Штаб-квартира</h4>
+          <div class="info-line">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Business Bay, The Executive Tower, 41 этаж, Дубай, ОАЭ</span>
+          </div>
+          <div class="info-line">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>+971 4 501 22 30</span>
+          </div>
+          <div class="info-line">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M4 4h16v16H4zM22 6l-10 7L2 6"/></svg>
+            <span>info@apexia-construction.com</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <h4>Глобальные офисы</h4>
+          <div class="office-mini"><span>Сингапур</span><b>+65 6011 4820</b></div>
+          <div class="office-mini"><span>Лондон</span><b>+44 20 7946 0192</b></div>
+          <div class="office-mini"><span>Майами</span><b>+1 305 555 0148</b></div>
+          <div class="office-mini"><span>Эр-Рияд</span><b>+966 11 520 3390</b></div>
+        </div>
+        <div class="info-block">
+          <h4>Часы работы</h4>
+          <div class="office-mini"><span>Пн – Пт</span><b>08:00 – 19:00 (GST)</b></div>
+          <div class="office-mini"><span>Сб</span><b>09:00 – 14:00 (GST)</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#main" class="logo">APEX<span>IA</span></a>
+        <p>Международный генподрядчик полного цикла. Жилые комплексы, офисные небоскрёбы и частные виллы в 24 странах.</p>
+        <div class="social-row">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="X">X</a>
+          <a href="#" aria-label="YouTube">yt</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Компания</h5>
+        <a href="#about">О нас</a>
+        <a href="#projects">Проекты</a>
+        <a href="#equipment">Техника</a>
+        <a href="#contact">Контакты</a>
+      </div>
+      <div class="footer-col">
+        <h5>Услуги</h5>
+        <a href="#services">Жилые комплексы</a>
+        <a href="#services">Офисные небоскрёбы</a>
+        <a href="#services">Частные виллы</a>
+        <a href="#services">Реконструкция</a>
+      </div>
+      <div class="footer-col">
+        <h5>Контакты</h5>
+        <a href="tel:+97145012230">+971 4 501 22 30</a>
+        <a href="mailto:info@apexia-construction.com">info@apexia-construction.com</a>
+        <a href="#contact">Business Bay, Дубай, ОАЭ</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 APEXIA Construction Group. Все права защищены.</span>
+      <span>Политика конфиденциальности · Условия использования</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  /* ---------- Hero parallax: subtle depth, only for precise pointers ---------- */
+  var hero = document.querySelector('.hero');
+  var canUseParallax = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.setTimeout(function () { hero.classList.add('is-settled'); }, 1200);
+  }
+  if (hero && canUseParallax) {
+    hero.addEventListener('pointermove', function (e) {
+      var rect = hero.getBoundingClientRect();
+      var x = ((e.clientX - rect.left) / rect.width - 0.5) * 18;
+      var y = ((e.clientY - rect.top) / rect.height - 0.5) * 18;
+      hero.style.setProperty('--parallax-x', x.toFixed(2));
+      hero.style.setProperty('--parallax-y', y.toFixed(2));
+    });
+    hero.addEventListener('pointerleave', function () {
+      hero.style.setProperty('--parallax-x', '0');
+      hero.style.setProperty('--parallax-y', '0');
+    });
+  }
+
+  /* ---------- Smooth wheel scrolling for desktop mice ---------- */
+  var canSmoothWheel = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (canSmoothWheel) {
+    var scrollTarget = window.scrollY;
+    var scrollFrame = null;
+    function animateWheelScroll() {
+      var current = window.scrollY;
+      var next = current + (scrollTarget - current) * 0.14;
+      if (Math.abs(scrollTarget - current) < 0.5) {
+        window.scrollTo(0, scrollTarget);
+        scrollFrame = null;
+        return;
+      }
+      window.scrollTo(0, next);
+      scrollFrame = window.requestAnimationFrame(animateWheelScroll);
+    }
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.target.closest('input, textarea, select')) return;
+      e.preventDefault();
+      var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      scrollTarget = Math.max(0, Math.min(maxScroll, scrollTarget + e.deltaY * 0.85));
+      if (!scrollFrame) scrollFrame = window.requestAnimationFrame(animateWheelScroll);
+    }, { passive: false });
+    window.addEventListener('scroll', function () {
+      if (!scrollFrame) scrollTarget = window.scrollY;
+    }, { passive: true });
+  }
+
+  /* ---------- Mobile nav ---------- */
+  var navToggle = document.getElementById('navToggle');
+  var mainNav = document.getElementById('mainNav');
+  navToggle.addEventListener('click', function () {
+    var open = mainNav.classList.toggle('is-open');
+    navToggle.classList.toggle('is-open', open);
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  document.querySelectorAll('.nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      mainNav.classList.remove('is-open');
+      navToggle.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ---------- Active nav link on scroll ---------- */
+  var sections = ['about', 'services', 'equipment', 'projects', 'calculator', 'contact']
+    .map(function (id) { return document.getElementById(id); })
+    .filter(Boolean);
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+  if ('IntersectionObserver' in window && sections.length) {
+    var navObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var id = entry.target.id;
+          navLinks.forEach(function (l) {
+            l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function (s) { navObserver.observe(s); });
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (el) { revealObserver.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  /* ---------- Counters ---------- */
+  // Анимация нужна только цифрам с явным числовым значением.
+  // В блоке техники есть статичные значения «900+» и «24/7», их не парсим.
+  var counters = document.querySelectorAll('.stat-num[data-count]');
+  function animateCounter(el) {
+    var target = parseInt(el.getAttribute('data-count'), 10);
+    var suffix = el.getAttribute('data-suffix') || '';
+    var start = 0;
+    var duration = 1400;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = Math.floor(eased * target);
+      el.textContent = current.toLocaleString('ru-RU') + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString('ru-RU') + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+  if ('IntersectionObserver' in window && counters.length) {
+    var counterObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function (c) { counterObserver.observe(c); });
+  }
+
+  /* ---------- Project cards: tap-to-open on touch devices ---------- */
+  document.querySelectorAll('.project-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var wasOpen = card.classList.contains('is-open');
+      document.querySelectorAll('.project-card').forEach(function (c) { c.classList.remove('is-open'); });
+      if (!wasOpen) card.classList.add('is-open');
+    });
+  });
+
+  /* ---------- Testimonials carousel ---------- */
+  var slides = document.querySelectorAll('.testi-slide');
+  var dots = document.querySelectorAll('.testi-dot');
+  var testiIndex = 0;
+  var testiTimer;
+  function showSlide(i) {
+    slides.forEach(function (s, idx) { s.classList.toggle('active', idx === i); });
+    dots.forEach(function (d, idx) { d.classList.toggle('active', idx === i); });
+    testiIndex = i;
+  }
+  function nextSlide() { showSlide((testiIndex + 1) % slides.length); }
+  function startAuto() { testiTimer = setInterval(nextSlide, 6000); }
+  function stopAuto() { clearInterval(testiTimer); }
+  dots.forEach(function (dot, idx) {
+    dot.addEventListener('click', function () { stopAuto(); showSlide(idx); startAuto(); });
+  });
+  if (slides.length) {
+    startAuto();
+    var testiWrap = document.querySelector('.testi-wrap');
+    testiWrap.addEventListener('mouseenter', stopAuto);
+    testiWrap.addEventListener('mouseleave', startAuto);
+  }
+
+  /* ---------- Cost calculator ---------- */
+  var RATES = { residential: 1400, office: 2200, villa: 1800 };
+  var TYPE_LABEL = { residential: 'Жилой комплекс', office: 'Офисный небоскрёб', villa: 'Частная вилла' };
+
+  var calcType = document.getElementById('calcType');
+  var calcArea = document.getElementById('calcArea');
+  var calcAreaVal = document.getElementById('calcAreaVal');
+  var calcFinishSeg = document.getElementById('calcFinish');
+  var calcCost = document.getElementById('calcCost');
+  var calcCostSub = document.getElementById('calcCostSub');
+  var calcTime = document.getElementById('calcTime');
+  var calcTypeLabel = document.getElementById('calcTypeLabel');
+  var calcFinishLabel = document.getElementById('calcFinishLabel');
+
+  var currentFinishMult = 1;
+  var currentFinishName = 'Business';
+
+  function fmtUSD(n) {
+    if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
+    return '$' + Math.round(n / 1000) + 'K';
+  }
+
+  function updateCalculator() {
+    var type = calcType.value;
+    var area = parseInt(calcArea.value, 10);
+    var rate = RATES[type];
+    var base = area * rate * currentFinishMult;
+    var low = base * 0.92;
+    var high = base * 1.12;
+
+    calcAreaVal.textContent = area.toLocaleString('ru-RU') + ' м²';
+    calcCost.textContent = fmtUSD(low) + ' – ' + fmtUSD(high);
+    calcCostSub.textContent = 'на основе тарифа $' + rate.toLocaleString('ru-RU') + ' / м² для категории «' + TYPE_LABEL[type] + '»';
+
+    var months = Math.round(8 + Math.sqrt(area) / 9 * currentFinishMult);
+    months = Math.max(6, Math.min(months, 60));
+    calcTime.textContent = '≈ ' + months + ' мес.';
+    calcTypeLabel.textContent = TYPE_LABEL[type];
+    calcFinishLabel.textContent = currentFinishName;
+  }
+
+  calcType.addEventListener('change', updateCalculator);
+  calcArea.addEventListener('input', updateCalculator);
+  calcFinishSeg.querySelectorAll('button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      calcFinishSeg.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentFinishMult = parseFloat(btn.getAttribute('data-finish'));
+      currentFinishName = btn.textContent.trim();
+      updateCalculator();
+    });
+  });
+  updateCalculator();
+
+  /* ---------- Lead form: client-side validation + simulated submission ----------
+     Это статичная демо-страница в одном HTML-файле, поэтому реальной серверной части нет.
+     Ниже — полностью рабочая логика валидации и состояния формы. Для боевого проекта
+     достаточно заменить submitLead() на реальный fetch('/api/leads', {method:'POST', ...})
+     или интеграцию с сервисом (Formspree, EmailJS, собственный backend). */
+  var submissionsLog = []; // in-memory "CRM" — в реальном проекте это будет БД на сервере
+
+  var form = document.getElementById('leadForm');
+  var submitBtn = document.getElementById('submitBtn');
+  var formStatus = document.getElementById('formStatus');
+  var resetFormBtn = document.getElementById('resetFormBtn');
+
+  var fields = {
+    name: { el: document.getElementById('inpName'), wrap: document.getElementById('fName'),
+      validate: function (v) { return v.trim().length >= 2; } },
+    phone: { el: document.getElementById('inpPhone'), wrap: document.getElementById('fPhone'),
+      validate: function (v) { return /^[+\d][\d\s\-()]{7,}$/.test(v.trim()); } },
+    email: { el: document.getElementById('inpEmail'), wrap: document.getElementById('fEmail'),
+      validate: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); } },
+    type: { el: document.getElementById('inpType'), wrap: document.getElementById('fType'),
+      validate: function (v) { return v.trim().length > 0; } },
+    message: { el: document.getElementById('inpMessage'), wrap: document.getElementById('fMessage'),
+      validate: function (v) { return v.trim().length >= 5; } },
+    consent: { el: document.getElementById('inpConsent'), wrap: document.getElementById('fConsent'),
+      validate: function (v, el) { return el.checked; } }
+  };
+
+  function validateField(key) {
+    var f = fields[key];
+    var value = f.el.value;
+    var ok = f.validate(value, f.el);
+    f.wrap.classList.toggle('has-error', !ok);
+    return ok;
+  }
+
+  Object.keys(fields).forEach(function (key) {
+    var f = fields[key];
+    var evt = (f.el.type === 'checkbox' || f.el.tagName === 'SELECT') ? 'change' : 'input';
+    f.el.addEventListener(evt, function () {
+      if (f.wrap.classList.contains('has-error')) validateField(key);
+    });
+    f.el.addEventListener('blur', function () { validateField(key); });
+  });
+
+  function simulateSubmit(payload) {
+    // Симуляция сетевого запроса. В реальном проекте:
+    // return fetch('/api/leads', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    return new Promise(function (resolve) {
+      setTimeout(function () {
+        submissionsLog.push(payload);
+        resolve({ ok: true });
+      }, 1300);
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var allValid = Object.keys(fields).map(validateField).every(Boolean);
+    if (!allValid) {
+      var firstError = form.querySelector('.has-error input, .has-error select, .has-error textarea');
+      if (firstError) firstError.focus();
+      return;
+    }
+
+    var payload = {
+      name: fields.name.el.value.trim(),
+      phone: fields.phone.el.value.trim(),
+      email: fields.email.el.value.trim(),
+      type: fields.type.el.value,
+      message: fields.message.el.value.trim(),
+      submittedAt: new Date().toISOString()
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Отправка…';
+
+    simulateSubmit(payload).then(function () {
+      form.classList.add('is-hidden');
+      formStatus.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Отправить заявку';
+    });
+  });
+
+  resetFormBtn.addEventListener('click', function () {
+    form.reset();
+    Object.keys(fields).forEach(function (key) { fields[key].wrap.classList.remove('has-error'); });
+    form.classList.remove('is-hidden');
+    formStatus.classList.remove('show');
+  });
+
+});
+</script>
+</body>
+</html>
