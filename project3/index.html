@@ -1,1 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="KERN — интерактивный концепт-сервис для создания характера бренда." />
+  <title>KERN — Brand intelligence</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <nav class="nav shell">
+    <a class="brand" href="#top" aria-label="KERN — на главную"><i></i>KERN<sup>®</sup></a>
+    <div class="nav-links"><a href="#studio">Студия</a><a href="#method">Метод</a><a href="#library">Библиотека</a></div>
+    <button class="ghost-button" id="open-modal">Войти <b>↗</b></button>
+  </nav>
 
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Brand intelligence for people with taste</p>
+        <h1>Бренд,<br><em>который</em> <strong>чувствуют.</strong></h1>
+        <p class="hero-description">KERN превращает смутную идею в ясную визуальную систему — голос, характер, цвет и первые слова, которые хочется произнести вслух.</p>
+        <div class="hero-actions"><a class="primary-button" href="#studio">Собрать концепцию <b>↓</b></a><span>Без шаблонов.<br>Без лишнего шума.</span></div>
+      </div>
+      <div class="orb-stage" aria-label="Визуальное ядро бренда">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div>
+        <div class="orb"><span>K</span><small>signal<br>/ 001</small></div>
+        <p class="orb-label orb-label-a">Tone<br>of voice</p><p class="orb-label orb-label-b">Visual<br>language</p><p class="orb-label orb-label-c">Brand<br>strategy</p>
+        <div class="pulse-dot dot-a"></div><div class="pulse-dot dot-b"></div><div class="pulse-dot dot-c"></div>
+      </div>
+    </section>
+
+    <section class="marquee" aria-label="Стратегия, характер, ясность и визуальный код">
+      <div class="marquee-track">
+        <div class="marquee-group">Стратегия <b>✳</b> Характер <b>✳</b> Ясность <b>✳</b> Визуальный код <b>✳</b> Стратегия <b>✳</b> Характер <b>✳</b> Ясность <b>✳</b> Визуальный код <b>✳</b></div>
+        <div class="marquee-group" aria-hidden="true">Стратегия <b>✳</b> Характер <b>✳</b> Ясность <b>✳</b> Визуальный код <b>✳</b> Стратегия <b>✳</b> Характер <b>✳</b> Ясность <b>✳</b> Визуальный код <b>✳</b></div>
+      </div>
+    </section>
+
+    <section class="studio shell" id="studio">
+      <div class="section-intro"><p class="section-number">01 — Studio</p><h2>Дай идее<br><em>точку опоры.</em></h2><p>Три коротких ответа — и KERN соберёт первую бренд-концепцию. Никакие данные не отправляются: это интерактивная демонстрация интерфейса.</p></div>
+      <form class="brand-form" id="brand-form">
+        <label><span>01 / Что ты создаёшь?</span><input id="category" value="Кофейня нового поколения" placeholder="Например, винный бар" required></label>
+        <label><span>02 / Для кого это?</span><input id="audience" value="Городские профессионалы 22–35" placeholder="Кого ты хочешь привлечь" required></label>
+        <label><span>03 / Какое ощущение оставить?</span><input id="mood" value="Тёплый, смелый, спокойный" placeholder="Например, тихая уверенность" required></label>
+        <div class="starter-row"><span>Попробуй:</span><button type="button" data-preset="Кофейня нового поколения|Городские профессионалы 22–35|Тёплый, смелый, спокойный">Кофейня</button><button type="button" data-preset="Сервис для фриланс-команд|Креаторы и небольшие студии|Точный, цифровой, лёгкий">Сервис</button><button type="button" data-preset="Натуральная косметика|Осознанные покупатели|Чистый, чувственный, тихий">Косметика</button></div>
+        <button class="create-button" type="submit">Собрать ядро <b>↗</b></button>
+        <p class="form-notice" id="form-notice" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="output-wrap shell" id="library">
+      <div class="concept-card" id="concept-card">
+        <div class="empty-output" id="empty-output"><span class="empty-symbol">K°</span><p>Здесь появится<br>твой первый сигнал.</p><small>Заполни бриф выше, чтобы начать.</small></div>
+        <div class="concept-content" id="concept-content" hidden>
+          <div class="concept-top"><span id="concept-number">Новая концепция / 001</span><span>только что</span></div>
+          <div class="concept-main"><div><p class="label">Имя</p><h3 id="concept-name">AURA</h3><p class="tagline" id="concept-tagline"></p></div><div class="concept-mark">K<span>°</span></div></div>
+          <div class="concept-grid"><div><p class="label">Суть</p><p id="concept-description"></p></div><div><p class="label">Голос</p><div class="voice-tags" id="voice-tags"></div></div><div><p class="label">Цветовой ритм</p><div class="swatches" id="swatches"></div></div></div>
+          <div class="concept-footer"><span>Демо-версия · ничего не сохранено на сервере</span><button type="button" id="copy-idea">Скопировать идею ↗</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="method" id="method"><div class="shell method-inner"><p class="section-number">02 — How it works</p><div class="method-grid"><h2>Не угадываем.<br><em>Настраиваем резонанс.</em></h2><div class="method-steps"><article><span>01</span><h3>Слушаем</h3><p>Находим напряжение между тем, что есть, и тем, что должно чувствоваться.</p></article><article><span>02</span><h3>Собираем</h3><p>Соединяем смысл, ритм и визуальный характер в одну систему.</p></article><article><span>03</span><h3>Запускаем</h3><p>Оставляем не папку с файлами, а вектор для следующего шага.</p></article></div></div></div></section>
+  </main>
+
+  <footer class="footer shell"><a class="brand" href="#top"><i></i>KERN<sup>®</sup></a><p>Сделано для идей, которым тесно<br>в чужих шаблонах.</p><a href="#studio">Начать своё ↗</a></footer>
+
+  <div class="modal" id="modal" aria-hidden="true"><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" id="close-modal" aria-label="Закрыть">×</button><p class="section-number">KERN / access</p><h2 id="modal-title">Вход в<br><em>пространство.</em></h2><p>Это демонстрационный лендинг. Нажми «Продолжить» — интерфейс покажет экран успешной регистрации, но данные никуда не уйдут.</p><input type="email" placeholder="твой@email.com" aria-label="Электронная почта"><button class="create-button" id="fake-signup">Продолжить <b>↗</b></button><p class="modal-note" id="modal-note"></p></div></div>
+  <script src="script.js"></script>
+</body>
+</html>
