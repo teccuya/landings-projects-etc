@@ -1536,53 +1536,62 @@ body.cursor-over-link .cursor-ring {
     background: var(--surface);
   }
 
-  .thumb-cardbox {
-    background: #0c0c14;
+  .thumb-sfera {
+    background:
+      radial-gradient(circle at 70% 40%, rgba(121, 231, 255, 0.18), transparent 22%),
+      radial-gradient(circle at 25% 90%, rgba(139, 124, 255, 0.2), transparent 35%),
+      #080910;
   }
 
-  .thumb-cardbox::before {
+  .thumb-sfera::before {
     content: "";
     position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 74% 42%, rgba(124, 108, 240, 0.28), transparent 35%);
+    inset: -30% 20% -30% 43%;
+    border: 1px solid rgba(121, 231, 255, 0.18);
+    border-radius: 50%;
+    box-shadow: inset 0 0 55px rgba(139, 124, 255, 0.08);
   }
 
-  .thumb-cardbox__panel {
+  .thumb-sfera__rail {
     position: absolute;
-    left: 8%;
-    top: 14%;
-    width: 42%;
-    height: 72%;
-    border: 1px solid rgba(201, 169, 98, 0.45);
+    left: 7%;
+    top: 12%;
+    width: 18%;
+    height: 76%;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 10px;
     background:
-      linear-gradient(#c9a962, #c9a962) 10% 12% / 42% 3px no-repeat,
-      repeating-linear-gradient(to bottom, rgba(255,255,255,.12) 0 1px, transparent 1px 22px) 10% 30% / 80% 55% no-repeat,
-      #12121c;
+      radial-gradient(circle, #8b7cff 0 28%, transparent 30%) 50% 12% / 34% 12% no-repeat,
+      radial-gradient(circle, #79e7ff 0 28%, transparent 30%) 50% 35% / 34% 12% no-repeat,
+      radial-gradient(circle, #ff9a62 0 28%, transparent 30%) 50% 58% / 34% 12% no-repeat,
+      rgba(18, 21, 34, 0.72);
+    box-shadow: inset 0 1px rgba(255,255,255,.08);
   }
 
-  .thumb-cardbox__card {
+  .thumb-sfera__room {
     position: absolute;
-    right: 10%;
-    top: 9%;
-    width: 27%;
-    height: 82%;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 6px;
+    right: 7%;
+    top: 15%;
+    width: 62%;
+    height: 70%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
     background:
-      linear-gradient(140deg, #28243f, #15151e) 0 0 / 100% 58% no-repeat,
-      linear-gradient(#c9a962, #c9a962) 12% 68% / 56% 3px no-repeat,
-      linear-gradient(rgba(255,255,255,.15), rgba(255,255,255,.15)) 12% 78% / 76% 2px no-repeat,
-      #181822;
+      radial-gradient(circle, #8b7cff 0 42%, transparent 45%) 17% 28% / 14% 22% no-repeat,
+      radial-gradient(circle, #79e7ff 0 42%, transparent 45%) 39% 28% / 14% 22% no-repeat,
+      linear-gradient(90deg, rgba(139,124,255,.34), rgba(121,231,255,.16)) 12% 65% / 76% 18% no-repeat,
+      rgba(18, 21, 34, 0.68);
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-    transform: rotate(4deg);
+    backdrop-filter: blur(14px);
   }
 
-  .thumb-cardbox > b {
+  .thumb-sfera > b {
     position: absolute;
-    right: 3%;
-    bottom: 5%;
-    color: #c9a962;
-    font: 600 9px var(--mono);
+    right: 5%;
+    bottom: 6%;
+    color: #8b7cff;
+    font: 600 8px var(--mono);
+    letter-spacing: .08em;
   }
 
   .thumb-syty {
