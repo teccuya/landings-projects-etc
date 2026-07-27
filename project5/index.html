@@ -10,6 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
+    body:before{opacity:.012}
+    .finder label{font-size:11px;letter-spacing:.35px;color:#a9b3ae}
+    .finder input{font-size:15px}
+    .hero-metrics b{font-size:24px}
+    .hero-metrics span{font-size:11px;line-height:1.35;color:#a9b3ae}
     .float-signal,.float-token{position:absolute;z-index:5;pointer-events:none;will-change:transform}
     .float-signal{display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid rgba(10,12,11,.2);border-radius:10px;background:rgba(242,240,232,.88);color:#101510;box-shadow:0 13px 30px rgba(12,18,14,.16);backdrop-filter:blur(9px);font:8px DM Mono}
     .float-signal b{font-size:12px}.float-signal i{width:7px;height:7px;border-radius:50%;background:#ff5d36;box-shadow:0 0 0 4px rgba(255,93,54,.17)}
@@ -23,7 +28,7 @@
     @keyframes signal-drift-b{0%,100%{transform:translate(0,0) rotate(3deg)}50%{transform:translate(-20px,15px) rotate(-4deg)}}
     @keyframes token-orbit-a{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(18px,10px) rotate(12deg)}66%{transform:translate(-9px,22px) rotate(-8deg)}}
     @keyframes token-orbit-b{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-18px,-17px) rotate(18deg)}}
-    @media(max-width:580px){.signal-b,.token-a{display:none}.float-signal{font-size:7px}.signal-a{left:2%;bottom:18%}.token-b{left:16%;bottom:6%}}
+    @media(max-width:580px){.finder label{font-size:10px}.finder input{font-size:14px}.hero-metrics b{font-size:21px}.hero-metrics span{font-size:9px}.signal-b,.token-a{display:none}.float-signal{font-size:7px}.signal-a{left:2%;bottom:18%}.token-b{left:16%;bottom:6%}}
     @media(prefers-reduced-motion:reduce){.float-signal,.float-token{animation:none!important}}
   </style>
 </head>
@@ -72,10 +77,6 @@
           <div class="board-label">ВЕЩИ<br>ВОКРУГ<br>ТЕБЯ <b>↘</b></div>
         </div>
       </div>
-    </section>
-
-    <section class="category-rail">
-      <div class="rail-track"><div>ФОТО <i>●</i> ИНСТРУМЕНТЫ <i>●</i> ТУРИЗМ <i>●</i> ТЕХНИКА <i>●</i> СПОРТ <i>●</i> МУЗЫКА <i>●</i></div><div aria-hidden="true">ФОТО <i>●</i> ИНСТРУМЕНТЫ <i>●</i> ТУРИЗМ <i>●</i> ТЕХНИКА <i>●</i> СПОРТ <i>●</i> МУЗЫКА <i>●</i></div></div>
     </section>
 
     <section class="catalog section" id="catalog">
