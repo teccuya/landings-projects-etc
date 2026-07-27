@@ -858,6 +858,7 @@ input:focus-visible {
 .messages {
   display: flex;
   min-height: 0;
+  overflow: hidden;
   flex: 1;
   flex-direction: column;
   justify-content: flex-end;
@@ -868,6 +869,7 @@ input:focus-visible {
   display: grid;
   grid-template-columns: 29px 1fr;
   gap: 9px;
+  flex-shrink: 0;
   margin-top: 13px;
 }
 
@@ -898,6 +900,59 @@ input:focus-visible {
   font-size: 7px;
 }
 
+.demo-limit {
+  display: grid;
+  grid-template-columns: 29px 1fr;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 13px;
+  padding: 10px;
+  border: 1px solid rgba(139, 124, 255, 0.24);
+  border-radius: 11px;
+  background: linear-gradient(100deg, rgba(139, 124, 255, 0.1), rgba(121, 231, 255, 0.045));
+}
+
+.demo-limit > i {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  border: 1px solid rgba(121, 231, 255, 0.24);
+  border-radius: 10px;
+  background: rgba(121, 231, 255, 0.07);
+  color: var(--cyan);
+  font: normal 500 9px var(--mono);
+}
+
+.demo-limit strong,
+.demo-limit span {
+  display: block;
+}
+
+.demo-limit strong {
+  font-size: 8px;
+}
+
+.demo-limit span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 7px;
+}
+
+.demo-limit a {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: 7px;
+  color: var(--cyan);
+  font: 500 7px var(--mono);
+}
+
+.demo-limit a b {
+  font-weight: 500;
+}
+
 .composer {
   display: grid;
   grid-template-columns: 28px 1fr auto;
@@ -908,6 +963,15 @@ input:focus-visible {
   border: 1px solid var(--line-soft);
   border-radius: 11px;
   background: rgba(255, 255, 255, 0.035);
+}
+
+.composer.is-locked {
+  opacity: 0.52;
+}
+
+.composer.is-locked,
+.composer.is-locked * {
+  cursor: not-allowed;
 }
 
 .composer button {
@@ -928,6 +992,11 @@ input:focus-visible {
 
 .composer input::placeholder {
   color: var(--dim);
+}
+
+.composer input:disabled {
+  color: var(--dim);
+  -webkit-text-fill-color: var(--dim);
 }
 
 .composer > span {

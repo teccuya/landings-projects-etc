@@ -111,8 +111,38 @@
 
   const composer = document.querySelector("[data-composer]");
   const input = composer.querySelector("input");
+  const messages = document.querySelector("[data-messages]");
+  const demoMessageLimit = 4;
+  let sentMessageCount = 0;
+  let demoLocked = false;
+
+  const lockDemoChat = () => {
+    demoLocked = true;
+    composer.classList.add("is-locked");
+    composer.setAttribute("aria-disabled", "true");
+    input.value = "";
+    input.placeholder = "Демо завершено";
+    input.disabled = true;
+    composer.querySelectorAll("button").forEach((button) => {
+      button.disabled = true;
+    });
+
+    const notice = document.createElement("article");
+    notice.className = "demo-limit";
+    notice.innerHTML = `
+      <i>S</i>
+      <div>
+        <strong>Демо завершено</strong>
+        <span>Скачайте приложение, чтобы продолжить общение.</span>
+        <a href="#download">Скачать SFERA <b aria-hidden="true">↗</b></a>
+      </div>`;
+    messages.append(notice);
+  };
+
   composer.addEventListener("submit", (event) => {
     event.preventDefault();
+    if (demoLocked) return;
+
     const value = input.value.trim();
     if (!value) return;
 
@@ -125,8 +155,13 @@
         <span></span>
       </div>`;
     message.querySelector("span").textContent = value;
-    document.querySelector("[data-messages]").append(message);
+    messages.append(message);
     input.value = "";
+    sentMessageCount += 1;
+
+    if (sentMessageCount >= demoMessageLimit) {
+      lockDemoChat();
+    }
   });
 
   document.querySelector("[data-download]").addEventListener("click", (event) => {
