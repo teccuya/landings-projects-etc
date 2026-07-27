@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru" class="no-js">
   <head>
     <meta charset="UTF-8">
@@ -28,7 +28,6 @@
   </head>
   <body>
     <a class="skip-link" href="#main">К содержанию</a>
-    <div class="noise" aria-hidden="true"></div>
     <div class="aurora aurora--one" aria-hidden="true"></div>
     <div class="aurora aurora--two" aria-hidden="true"></div>
 
@@ -81,7 +80,7 @@
               <span aria-hidden="true">↓</span>
             </a>
           </div>
-          <div class="hero__proof" aria-label="Преимущества">
+          <div class="hero__proof">
             <span>Без рекламы</span>
             <span>Шифрование</span>
             <span>Любое устройство</span>
@@ -111,7 +110,7 @@
               <button class="space-add" type="button" aria-label="Добавить пространство">+</button>
             </aside>
 
-            <aside class="channel-panel">
+            <aside class="channel-panel" aria-label="Каналы пространства">
               <div class="channel-panel__top">
                 <div>
                   <small>ПРОСТРАНСТВО</small>
@@ -222,12 +221,13 @@
                   <label class="sr-only" for="message">Сообщение</label>
                   <input id="message" type="text" placeholder="Написать в #lounge" autocomplete="off">
                   <span>⌘ ↵</span>
+                  <button class="sr-only" type="submit">Отправить сообщение</button>
                 </form>
               </div>
             </section>
 
-            <aside class="people-panel">
-              <div class="people-panel__head"><span>В СЕТИ · 5</span><button type="button">+</button></div>
+            <aside class="people-panel" aria-label="Участники пространства">
+              <div class="people-panel__head"><span>В СЕТИ · 5</span><button type="button" aria-label="Пригласить участника">+</button></div>
               <div class="person">
                 <i class="avatar avatar--one">A</i><span><b>alex.</b><small>В эфире</small></span><em></em>
               </div>
