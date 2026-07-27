@@ -397,6 +397,8 @@ input:focus-visible {
 }
 
 .app-shell {
+  --muted: #b6bdcf;
+  --dim: #848ca2;
   position: relative;
   z-index: 2;
   display: grid;
@@ -502,13 +504,13 @@ input:focus-visible {
 .people-panel__head,
 .feature__index {
   color: var(--dim);
-  font: 500 8px var(--mono);
+  font: 500 9px var(--mono);
   letter-spacing: 0.08em;
 }
 
 .channel-panel__top strong {
   margin-top: 4px;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.04em;
 }
 
@@ -552,7 +554,7 @@ input:focus-visible {
   border-radius: 8px;
   background: transparent;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
   text-align: left;
 }
 
@@ -587,7 +589,7 @@ input:focus-visible {
   align-items: center;
   margin: 7px 0;
   color: var(--muted);
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .voice-users b {
@@ -640,12 +642,13 @@ input:focus-visible {
 .profile-card strong,
 .profile-card small {
   display: block;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .profile-card small {
   margin-top: 3px;
   color: var(--green);
+  font-size: 7px;
 }
 
 .profile-card button {
@@ -679,13 +682,13 @@ input:focus-visible {
 }
 
 .room__header strong {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .room__header small {
   margin-top: 3px;
   color: var(--dim);
-  font-size: 7px;
+  font-size: 8px;
 }
 
 .room__actions {
@@ -738,7 +741,7 @@ input:focus-visible {
   display: flex;
   justify-content: space-between;
   color: var(--dim);
-  font: 500 7px var(--mono);
+  font: 500 8px var(--mono);
   letter-spacing: 0.07em;
 }
 
@@ -785,13 +788,13 @@ input:focus-visible {
 .speaker span b,
 .speaker span small {
   display: block;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .speaker span small {
   margin-top: 4px;
   color: var(--dim);
-  font-size: 6px;
+  font-size: 7px;
 }
 
 .speaker em {
@@ -846,7 +849,7 @@ input:focus-visible {
 }
 
 .join-voice b {
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .join-voice.is-joined {
@@ -875,19 +878,19 @@ input:focus-visible {
 
 .message p {
   margin: 0 0 4px;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .message time {
   margin-left: 6px;
   color: var(--dim);
-  font: 400 6px var(--mono);
+  font: 400 7px var(--mono);
 }
 
 .message div > span {
   display: block;
-  color: #b5b9c9;
-  font-size: 8px;
+  color: #d2d6e3;
+  font-size: 9px;
   line-height: 1.45;
 }
 
@@ -931,13 +934,13 @@ input:focus-visible {
 }
 
 .demo-limit strong {
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .demo-limit span {
   margin-top: 3px;
   color: var(--muted);
-  font-size: 7px;
+  font-size: 8px;
 }
 
 .demo-limit a {
@@ -946,7 +949,7 @@ input:focus-visible {
   align-items: center;
   margin-top: 7px;
   color: var(--cyan);
-  font: 500 7px var(--mono);
+  font: 500 8px var(--mono);
 }
 
 .demo-limit a b {
@@ -966,7 +969,7 @@ input:focus-visible {
 }
 
 .composer.is-locked {
-  opacity: 0.52;
+  opacity: 0.72;
 }
 
 .composer.is-locked,
@@ -987,7 +990,7 @@ input:focus-visible {
   border: 0;
   outline: 0;
   background: transparent;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .composer input::placeholder {
@@ -1001,7 +1004,7 @@ input:focus-visible {
 
 .composer > span {
   color: var(--dim);
-  font: 400 6px var(--mono);
+  font: 400 7px var(--mono);
 }
 
 .people-panel {
@@ -1032,7 +1035,7 @@ input:focus-visible {
 .person small {
   display: block;
   overflow: hidden;
-  font-size: 8px;
+  font-size: 9px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1040,7 +1043,7 @@ input:focus-visible {
 .person small {
   margin-top: 4px;
   color: var(--dim);
-  font-size: 6px;
+  font-size: 7px;
 }
 
 .person em {
@@ -1136,17 +1139,18 @@ input:focus-visible {
 .float-note b,
 .float-note small {
   display: block;
-  font-size: 7px;
+  font-size: 9px;
 }
 
 .float-note small {
   margin-top: 3px;
   color: var(--dim);
+  font-size: 7px;
 }
 
 .float-note--one {
-  top: 17%;
-  left: -6%;
+  top: -34px;
+  left: 8%;
   animation: float 5s ease-in-out infinite;
 }
 
@@ -1892,6 +1896,10 @@ input:focus-visible {
     grid-template-columns: 54px 165px minmax(330px, 1fr);
   }
 
+  .float-note--one {
+    display: none;
+  }
+
   .people-panel {
     display: none;
   }
@@ -1983,7 +1991,6 @@ input:focus-visible {
     transform: none;
   }
 
-  .float-note--one { left: -1%; }
   .float-note--two { right: 0; }
 
   .hero__scroll {
@@ -2081,7 +2088,6 @@ input:focus-visible {
     display: none;
   }
 
-  .float-note--one { top: 12%; left: 2%; }
   .float-note--two { right: 3%; bottom: 5%; }
 
   .section {
