@@ -1145,10 +1145,19 @@ input:focus-visible {
   background: rgba(255, 255, 255, 0.018);
 }
 
-.signal-line > div {
+.signal-line__track {
   display: flex;
   width: max-content;
   animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.signal-line__group {
+  display: flex;
+  min-width: 100vw;
+  flex: none;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .signal-line span,
@@ -1157,6 +1166,7 @@ input:focus-visible {
   color: var(--muted);
   font: 500 9px var(--mono);
   letter-spacing: 0.08em;
+  white-space: nowrap;
 }
 
 .signal-line i {
