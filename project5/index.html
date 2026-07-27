@@ -1,1 +1,144 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="RE:USE — городской сервис аренды вещей рядом с домом.">
+  <title>RE:USE — городской прокат между людьми</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body:before{opacity:.012}
+    .finder label{font-size:11px;letter-spacing:.35px;color:#a9b3ae}
+    .finder input{font-size:15px}
+    .hero-metrics b{font-size:24px}
+    .hero-metrics span{font-size:11px;line-height:1.35;color:#a9b3ae}
+    .float-signal,.float-token{position:absolute;z-index:5;pointer-events:none;will-change:transform}
+    .float-signal{display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid rgba(10,12,11,.2);border-radius:10px;background:rgba(242,240,232,.88);color:#101510;box-shadow:0 13px 30px rgba(12,18,14,.16);backdrop-filter:blur(9px);font:8px DM Mono}
+    .float-signal b{font-size:12px}.float-signal i{width:7px;height:7px;border-radius:50%;background:#ff5d36;box-shadow:0 0 0 4px rgba(255,93,54,.17)}
+    .signal-a{left:5%;bottom:29%;animation:signal-drift-a 5.8s ease-in-out infinite}
+    .signal-b{right:5%;top:45%;animation:signal-drift-b 7s ease-in-out infinite}
+    .signal-b i{background:#686cff;box-shadow:0 0 0 4px rgba(104,108,255,.18)}
+    .float-token{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#ff5d36;color:white;font-size:14px;font-weight:900;box-shadow:0 11px 24px rgba(255,93,54,.25)}
+    .token-a{right:24%;top:10%;animation:token-orbit-a 8s ease-in-out infinite}
+    .token-b{left:33%;bottom:7%;background:#686cff;box-shadow:0 11px 24px rgba(104,108,255,.25);animation:token-orbit-b 6.5s ease-in-out infinite}
+    @keyframes signal-drift-a{0%,100%{transform:translate(0,0) rotate(-3deg)}50%{transform:translate(16px,-20px) rotate(3deg)}}
+    @keyframes signal-drift-b{0%,100%{transform:translate(0,0) rotate(3deg)}50%{transform:translate(-20px,15px) rotate(-4deg)}}
+    @keyframes token-orbit-a{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(18px,10px) rotate(12deg)}66%{transform:translate(-9px,22px) rotate(-8deg)}}
+    @keyframes token-orbit-b{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-18px,-17px) rotate(18deg)}}
+    @media(max-width:580px){.finder label{font-size:10px}.finder input{font-size:14px}.hero-metrics b{font-size:21px}.hero-metrics span{font-size:9px}.signal-b,.token-a{display:none}.float-signal{font-size:7px}.signal-a{left:2%;bottom:18%}.token-b{left:16%;bottom:6%}}
+    @media(prefers-reduced-motion:reduce){.float-signal,.float-token{animation:none!important}}
+  </style>
+</head>
+<body>
+  <div class="cursor-glow" aria-hidden="true"></div>
 
+  <header class="topbar">
+    <a class="logo" href="#top">RE<span>:</span>USE</a>
+    <nav><a href="#catalog">Каталог</a><a href="#how">Как работает</a><a href="#trust">Гарантии</a></nav>
+    <div class="top-actions">
+      <button class="fav-top" id="favorites-button" aria-label="Избранное">♥ <span id="favorite-count">0</span></button>
+      <button class="plain-button" data-open="login">Войти</button>
+      <button class="hot-button" data-open="listing">+ Сдать вещь</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy reveal">
+          <p class="kicker"><span>LIVE</span> 2 418 вещей в Минске</p>
+          <h1>НЕ ПОКУПАЙ.<br><i>ПОЛЬЗУЙСЯ.</i></h1>
+          <p>Городской прокат вещей между людьми. Камера на съёмку, дрель на ремонт, палатка на выходные — бери только тогда, когда нужно.</p>
+          <form class="finder" id="hero-search">
+            <div><label for="search-input">Что нужно?</label><input id="search-input" type="search" placeholder="Например, проектор"></div>
+            <div class="finder-place"><label for="location-input">Рядом</label><input id="location-input" value="Минск"></div>
+            <button type="submit" aria-label="Найти">→</button>
+          </form>
+          <div class="hero-metrics"><div><b>4.9</b><span>средняя оценка</span></div><div><b>15 мин</b><span>до ближайшей вещи</span></div><div><b>−68%</b><span>дешевле покупки</span></div></div>
+        </div>
+
+        <div class="hero-board reveal">
+          <div class="map-grid"></div>
+          <div class="radar"><i></i><i></i><i></i><span></span></div>
+          <article class="hero-product">
+            <div class="hero-photo"></div>
+            <div><span>0.7 км · свободно</span><h3>Fujifilm X100V</h3><p><b>48 BYN</b> / день</p></div>
+          </article>
+          <div class="map-pin pin-a"><b>22</b><span>BYN</span></div>
+          <div class="map-pin pin-b"><b>31</b><span>BYN</span></div>
+          <div class="map-pin pin-c"><b>39</b><span>BYN</span></div>
+          <div class="float-signal signal-a"><i></i><span>СПРОС РЯДОМ</span><b>+8</b></div>
+          <div class="float-signal signal-b"><i></i><span>СВОБОДНО</span><b>12</b></div>
+          <div class="float-token token-a">↗</div>
+          <div class="float-token token-b">R</div>
+          <div class="board-label">ВЕЩИ<br>ВОКРУГ<br>ТЕБЯ <b>↘</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog section" id="catalog">
+      <header class="section-head reveal"><div><span class="index">01 / КАТАЛОГ</span><h2>БЕРИ РЯДОМ.<br><em>ВОЗВРАЩАЙ ВОВРЕМЯ.</em></h2></div><p>У каждой вещи есть владелец, рейтинг и понятная цена. Никаких складов — только люди в твоём городе.</p></header>
+      <div class="filters reveal">
+        <button class="filter active" data-filter="all">Все вещи <sup>12</sup></button>
+        <button class="filter" data-filter="photo">Фото <sup>3</sup></button>
+        <button class="filter" data-filter="tools">Инструменты <sup>2</sup></button>
+        <button class="filter" data-filter="travel">Туризм <sup>2</sup></button>
+        <button class="filter" data-filter="tech">Техника <sup>3</sup></button>
+        <button class="filter" data-filter="sport">Спорт <sup>2</sup></button>
+      </div>
+
+      <div class="product-grid" id="product-grid">
+        <article class="product-card reveal tilt" data-category="photo" data-title="Fujifilm X100V" data-price="48"><div class="product-image img-camera"><span class="badge">TOP</span><button class="heart">♡</button></div><div class="card-copy"><span>Фото · 0.7 км</span><h3>Fujifilm X100V</h3><div><p><b>48 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt featured" data-category="tools" data-title="Makita DDF485" data-price="22"><div class="product-image img-drill"><span class="badge mint">СЕГОДНЯ</span><button class="heart">♡</button></div><div class="card-copy"><span>Инструменты · 1.2 км</span><h3>Makita DDF485</h3><div><p><b>22 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt" data-category="travel" data-title="Naturehike Cloud Up" data-price="31"><div class="product-image img-tent"><button class="heart">♡</button></div><div class="card-copy"><span>Туризм · 2.1 км</span><h3>Naturehike Cloud Up</h3><div><p><b>31 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt" data-category="tech" data-title="XGIMI Halo+" data-price="39"><div class="product-image img-projector"><button class="heart">♡</button></div><div class="card-copy"><span>Техника · 3.4 км</span><h3>Проектор XGIMI Halo+</h3><div><p><b>39 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt wide" data-category="photo" data-title="DJI Mini 3 Pro" data-price="65"><div class="product-image img-drone"><span class="badge orange">NEW</span><button class="heart">♡</button></div><div class="card-copy"><span>Фото · 4.0 км</span><h3>DJI Mini 3 Pro</h3><div><p><b>65 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt" data-category="sport" data-title="SUP Aqua Marina" data-price="35"><div class="product-image img-sup"><button class="heart">♡</button></div><div class="card-copy"><span>Спорт · 5.6 км</span><h3>SUP Aqua Marina</h3><div><p><b>35 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt" data-category="tech" data-title="PlayStation 5" data-price="45"><div class="product-image img-console"><span class="badge purple">WEEKEND</span><button class="heart">♡</button></div><div class="card-copy"><span>Техника · 1.8 км</span><h3>PlayStation 5</h3><div><p><b>45 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt" data-category="tech" data-title="Pioneer DDJ-FLX4" data-price="55"><div class="product-image img-dj"><button class="heart">♡</button></div><div class="card-copy"><span>Музыка · 2.6 км</span><h3>Pioneer DDJ-FLX4</h3><div><p><b>55 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt featured" data-category="tools" data-title="Kärcher SE 5.100" data-price="28"><div class="product-image img-cleaner"><span class="badge mint">ПОПУЛЯРНО</span><button class="heart">♡</button></div><div class="card-copy"><span>Инструменты · 3.1 км</span><h3>Kärcher SE 5.100</h3><div><p><b>28 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt" data-category="sport" data-title="Trek Marlin 7" data-price="32"><div class="product-image img-bike"><button class="heart">♡</button></div><div class="card-copy"><span>Спорт · 3.8 км</span><h3>Trek Marlin 7</h3><div><p><b>32 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt" data-category="travel" data-title="Thule Motion XT" data-price="26"><div class="product-image img-roofbox"><button class="heart">♡</button></div><div class="card-copy"><span>Туризм · 4.7 км</span><h3>Бокс Thule Motion XT</h3><div><p><b>26 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+        <article class="product-card reveal tilt wide" data-category="photo" data-title="Sony A7 IV Kit" data-price="72"><div class="product-image img-sony"><span class="badge orange">PRO</span><button class="heart">♡</button></div><div class="card-copy"><span>Фото · 5.2 км</span><h3>Sony A7 IV Kit</h3><div><p><b>72 BYN</b> / день</p><button class="book-button">Арендовать →</button></div></div></article>
+      </div>
+      <div class="empty-search" id="empty-search" hidden><b>404</b><h3>Таких вещей рядом нет</h3><p>Попробуй изменить запрос или категорию.</p></div>
+    </section>
+
+    <section class="how section" id="how">
+      <header class="section-head reveal"><div><span class="index">02 / КАК РАБОТАЕТ</span><h2>ТРИ ШАГА.<br><em>НИЧЕГО ЛИШНЕГО.</em></h2></div></header>
+      <div class="steps">
+        <article class="step reveal"><span>01</span><div class="step-glyph">⌕</div><h3>Найди</h3><p>Выбери вещь рядом, проверь рейтинг и свободные даты.</p><i></i></article>
+        <article class="step reveal"><span>02</span><div class="step-glyph">↔</div><h3>Забери</h3><p>Отправь запрос и договорись о встрече с владельцем.</p><i></i></article>
+        <article class="step reveal hot-step"><span>03</span><div class="step-glyph">✓</div><h3>Верни</h3><p>Пользуйся, верни вовремя и поставь честную оценку.</p><i></i></article>
+      </div>
+    </section>
+
+    <section class="trust section" id="trust">
+      <div class="trust-copy reveal"><span class="index">03 / БЕЗОПАСНОСТЬ</span><h2>ДОВЕРИЕ —<br><em>НЕ ОПЦИЯ.</em></h2><p>Мы показываем историю аренд, проверяем контакты и фиксируем состояние вещи до передачи.</p><button class="hot-button" data-open="listing">Сдать первую вещь →</button></div>
+      <div class="trust-board reveal">
+        <div class="trust-score"><span>RE:USE SCORE</span><b>94</b><i>/100</i></div>
+        <div class="trust-bars"><p><span>Профиль подтверждён</span><b>100%</b></p><i style="--fill:100%"></i><p><span>Успешные аренды</span><b>97%</b></p><i style="--fill:97%"></i><p><span>Ответы вовремя</span><b>88%</b></p><i style="--fill:88%"></i></div>
+        <div class="trust-tags"><span>✓ ID CHECK</span><span>✓ REVIEWS</span><span>✓ SUPPORT</span></div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="closing-orbit"></div>
+      <span>ГОРОД УЖЕ ВСЁ КУПИЛ.</span>
+      <h2>ТЕБЕ ОСТАЛОСЬ<br><i>ТОЛЬКО ВЗЯТЬ.</i></h2>
+      <button data-open="listing">РАЗМЕСТИТЬ ВЕЩЬ <b>↗</b></button>
+    </section>
+  </main>
+
+  <footer><a class="logo" href="#top">RE<span>:</span>USE</a><p>Владей меньшим.<br>Делай больше.</p><div><a href="#catalog">Каталог</a><a href="#how">Как работает</a><a href="#trust">Гарантии</a></div><small>© 2026 · PORTFOLIO CONCEPT</small></footer>
+
+  <div class="modal" id="booking-modal" aria-hidden="true"><div class="modal-panel"><button class="modal-close" data-close>×</button><span class="index">БРОНИРОВАНИЕ</span><h2 id="booking-title">Fujifilm X100V</h2><p class="modal-price"><span>Цена за день</span><b id="booking-price">48 BYN</b></p><div class="date-grid"><label>Забрать<input id="date-from" type="date"></label><label>Вернуть<input id="date-to" type="date"></label></div><div class="total"><span><b id="booking-days">1 день</b><small>Демо-расчёт</small></span><strong id="booking-total">48 BYN</strong></div><button class="modal-submit" id="confirm-booking">ОТПРАВИТЬ ЗАПРОС →</button><p class="modal-note" id="booking-note">Деньги не списываются.</p></div></div>
+  <div class="modal" id="login-modal" aria-hidden="true"><form class="modal-panel" id="login-form"><button class="modal-close" data-close type="button">×</button><span class="index">АККАУНТ</span><h2>ВОЙТИ В RE:USE</h2><label class="field">Email<input type="email" placeholder="hello@example.com" required></label><label class="field">Пароль<input type="password" minlength="6" placeholder="Минимум 6 символов" required></label><button class="modal-submit">ПРОДОЛЖИТЬ →</button><p class="modal-note" id="login-note">Демо-вход: данные никуда не отправляются.</p></form></div>
+  <div class="modal" id="listing-modal" aria-hidden="true"><form class="modal-panel" id="listing-form"><button class="modal-close" data-close type="button">×</button><span class="index">НОВОЕ ОБЪЯВЛЕНИЕ</span><h2>ЧТО СДАЁМ?</h2><label class="field">Название<input placeholder="Например, проектор" required></label><div class="date-grid"><label class="field">Категория<select><option>Фото</option><option>Инструменты</option><option>Туризм</option><option>Техника</option><option>Спорт</option></select></label><label class="field">BYN / день<input type="number" min="1" placeholder="25" required></label></div><label class="upload-drop"><input type="file" accept="image/*" multiple><b>＋ ДОБАВИТЬ ФОТО</b><span>Файлы останутся на устройстве</span></label><button class="modal-submit">СОЗДАТЬ ДЕМО →</button><p class="modal-note" id="listing-note"></p></form></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
