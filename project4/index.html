@@ -1011,35 +1011,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ---------- Smooth wheel scrolling for desktop mice ---------- */
-  var canSmoothWheel = window.matchMedia('(hover: hover) and (pointer: fine)').matches
-    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (canSmoothWheel) {
-    var scrollTarget = window.scrollY;
-    var scrollFrame = null;
-    function animateWheelScroll() {
-      var current = window.scrollY;
-      var next = current + (scrollTarget - current) * 0.14;
-      if (Math.abs(scrollTarget - current) < 0.5) {
-        window.scrollTo(0, scrollTarget);
-        scrollFrame = null;
-        return;
-      }
-      window.scrollTo(0, next);
-      scrollFrame = window.requestAnimationFrame(animateWheelScroll);
-    }
-    window.addEventListener('wheel', function (e) {
-      if (e.ctrlKey || e.target.closest('input, textarea, select')) return;
-      e.preventDefault();
-      var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      scrollTarget = Math.max(0, Math.min(maxScroll, scrollTarget + e.deltaY * 0.85));
-      if (!scrollFrame) scrollFrame = window.requestAnimationFrame(animateWheelScroll);
-    }, { passive: false });
-    window.addEventListener('scroll', function () {
-      if (!scrollFrame) scrollTarget = window.scrollY;
-    }, { passive: true });
-  }
-
   /* ---------- Mobile nav ---------- */
   var navToggle = document.getElementById('navToggle');
   var mainNav = document.getElementById('mainNav');
