@@ -6,6 +6,7 @@
 <title>СЫТЫЙ. — доставка еды за 20 минут</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
 <style>
   :root{
     --paper: #F6F5F1;
@@ -45,8 +46,42 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; transition-delay:0ms !important; scroll-behavior:auto !important;}
+    .js .reveal{opacity:1 !important;transform:none !important;}
   }
+
+  /* ---------- LIGHT MOTION ---------- */
+  .js .hero > div:first-child > *{
+    opacity:0;
+    transform:translateY(16px);
+    animation:hero-in .65s cubic-bezier(.22,.8,.25,1) forwards;
+  }
+  .js .hero .eyebrow{animation-delay:.08s;}
+  .js .hero h1{animation-delay:.15s;}
+  .js .hero .lead{animation-delay:.22s;}
+  .js .hero .hero-actions{animation-delay:.29s;}
+  .js .hero .hero-note{animation-delay:.36s;}
+  .js .receipt-wrap{
+    opacity:0;
+    transform:translateY(12px) rotate(1deg);
+    animation:receipt-in .75s .24s cubic-bezier(.22,.8,.25,1) forwards;
+  }
+  @keyframes hero-in{to{opacity:1;transform:translateY(0);}}
+  @keyframes receipt-in{to{opacity:1;transform:translateY(0) rotate(0);}}
+
+  .js .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .65s ease, transform .65s cubic-bezier(.22,.8,.25,1);
+    will-change:opacity,transform;
+  }
+  .js .reveal.is-visible{opacity:1;transform:translateY(0);will-change:auto;}
+  .js .reveal-group > .reveal:nth-child(2){transition-delay:.06s;}
+  .js .reveal-group > .reveal:nth-child(3){transition-delay:.12s;}
+  .js .reveal-group > .reveal:nth-child(4){transition-delay:.18s;}
+  .js .reveal-group > .reveal:nth-child(5){transition-delay:.24s;}
+  .js .reveal-group > .reveal:nth-child(6){transition-delay:.30s;}
+  .js .reveal.reveal-settled{transition-delay:0s;}
 
   /* ---------- NAV ---------- */
   header{
@@ -124,6 +159,8 @@
     transition:transform .18s ease;
   }
   .btn-primary:hover{transform:translateY(-2px);}
+  .btn-primary svg{transition:transform .2s ease;}
+  .btn-primary:hover svg{transform:translateX(3px);}
   .btn-secondary{
     padding:16px 24px;font-size:14px;font-weight:600;
     border:1px solid var(--ink);border-radius:var(--radius);
@@ -211,9 +248,12 @@
     display:grid;grid-template-columns:70px 1fr 1.3fr;gap:32px;
     padding:34px 0;border-bottom:1px dashed var(--line);align-items:start;
   }
+  .t-line{transition:background .25s ease;}
+  .js .reveal.t-line{transition:opacity .65s ease, transform .65s cubic-bezier(.22,.8,.25,1), background .25s ease;}
   .t-line:hover{background:rgba(0,0,0,0.02);}
   .t-num{font-family:'Space Mono',monospace;font-size:14px;color:var(--ink-soft);padding-top:4px;}
-  .t-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;}
+  .t-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;transition:transform .25s ease;}
+  .t-line:hover .t-title{transform:translateX(5px);}
   .t-desc{color:var(--ink-soft);font-size:15px;line-height:1.65;max-width:480px;}
   @media(max-width:700px){.t-line{grid-template-columns:40px 1fr;}.t-desc{grid-column:2/3;}}
 
@@ -251,8 +291,11 @@
     display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
     background:var(--line);border:1px solid var(--line);
   }
-  .why-card{background:var(--paper);padding:36px 28px;}
-  .why-card svg{width:30px;height:30px;margin-bottom:22px;}
+  .why-card{background:var(--paper);padding:36px 28px;transition:background .25s ease;}
+  .js .reveal.why-card{transition:opacity .65s ease, transform .65s cubic-bezier(.22,.8,.25,1), background .25s ease;}
+  .why-card:hover{background:var(--paper-card);}
+  .why-card svg{width:30px;height:30px;margin-bottom:22px;transition:transform .3s cubic-bezier(.22,.8,.25,1);}
+  .why-card:hover svg{transform:translateY(-4px) rotate(-3deg);}
   .why-card h3{font-size:17px;font-weight:600;margin-bottom:10px;}
   .why-card p{font-size:14px;color:var(--ink-soft);line-height:1.6;}
   @media(max-width:900px){.why-grid{grid-template-columns:repeat(2,1fr);}}
@@ -269,7 +312,10 @@
   .stub{
     background:#151515;border:1px solid #2b2b2b;
     padding:28px 24px;position:relative;
+    transition:border-color .25s ease, transform .25s ease;
   }
+  .stub:hover{border-color:#4a4a48;transform:translateY(-3px);}
+  .js .reveal.stub{transition:opacity .65s ease, transform .3s cubic-bezier(.22,.8,.25,1), border-color .25s ease;}
   .stub::before{
     content:'';position:absolute;top:-1px;left:24px;right:24px;height:1px;
     background:repeating-linear-gradient(90deg,#3a3a3a 0 6px, transparent 6px 12px);
@@ -298,7 +344,9 @@
     justify-self:center;width:230px;height:460px;
     background:var(--black);border-radius:28px;padding:10px;
     box-shadow:10px 10px 0 var(--line);
+    transition:transform .35s cubic-bezier(.22,.8,.25,1), box-shadow .35s ease;
   }
+  .phone-mock:hover{transform:translateY(-5px) rotate(.6deg);box-shadow:14px 14px 0 var(--line);}
   .phone-screen{
     width:100%;height:100%;background:var(--paper-card);border-radius:20px;
     padding:20px 16px;font-family:'Space Mono',monospace;overflow:hidden;
@@ -582,21 +630,30 @@
     setInterval(tick, 2400);
   }
 
-  // Reveal-on-scroll for ticket lines and cards
-  const revealTargets = document.querySelectorAll('.t-line, .cat-card, .why-card, .stub');
-  revealTargets.forEach(el => { el.style.opacity = 0; el.style.transform = 'translateY(14px)'; el.style.transition = 'opacity .5s ease, transform .5s ease'; });
+  // Soft reveal-on-scroll with a small stagger inside repeated grids
+  const groupSelectors = ['.stats-grid', '.ticket-lines', '.menu-grid', '.why-grid', '.stub-row', '.foot-top'];
+  groupSelectors.forEach(selector => document.querySelector(selector)?.classList.add('reveal-group'));
 
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.style.opacity = 1;
-        entry.target.style.transform = 'translateY(0)';
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
+  const revealTargets = document.querySelectorAll(
+    '.section-head, .stat, .t-line, .cat-card, .why-card, .stub, .app-cta > div, .foot-top > div'
+  );
+  revealTargets.forEach(el => el.classList.add('reveal'));
 
-  revealTargets.forEach(el => io.observe(el));
+  if(reduced || !('IntersectionObserver' in window)){
+    revealTargets.forEach(el => el.classList.add('is-visible'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          setTimeout(() => entry.target.classList.add('reveal-settled'), 1000);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -32px' });
+
+    revealTargets.forEach(el => io.observe(el));
+  }
 </script>
 
 </body>
